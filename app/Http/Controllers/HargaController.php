@@ -20,7 +20,6 @@ class HargaController extends Controller
 
     public function edit(Harga $harga)
     {
-        //
         // return view('dashboard.harga.edit', compact('harga'));
         return view('dashboard.harga.edit', ['harga' => $harga]);
     }
@@ -42,7 +41,7 @@ class HargaController extends Controller
         ]);
 
         //kembali
-        return redirect()->route('harga.index')->with(['success' => 'Harga Berhasil Diubah!']);
+        return redirect()->route('harga.index')->with(['success' => 'Harga berhasil diubah.']);
         
     }
 }
