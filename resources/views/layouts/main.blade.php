@@ -32,6 +32,7 @@ Contact: contact@hencework.com
     <!-- CSS -->
     {{-- <link href="dist/css/style.css" rel="stylesheet" type="text/css"> --}}
     <link href="{{asset('dist/css/style.css')}}" rel="stylesheet" type="text/css">
+    @stack('style')
     
 </head>
 
@@ -57,7 +58,7 @@ Contact: contact@hencework.com
         @include('layouts.footer')
     </div>
     <!-- /Wrapper -->
-
+    
     <!-- jQuery -->
     <script src="{{asset('vendors/jquery/dist/jquery.min.js')}}"></script>
 
@@ -98,6 +99,7 @@ Contact: contact@hencework.com
     <script src="{{asset('dist/js/init.js')}}"></script>
     <script src="{{asset('dist/js/chips-init.js')}}"></script>
     <script src="{{asset('dist/js/dashboard-data.js')}}"></script>
+    @stack('script')
 </body>
 
 </html>

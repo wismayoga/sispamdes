@@ -1,10 +1,45 @@
+<style>
+    .navbar-brands {
+        color: var(--primary-color);
+        font-size: var(--h6-font-size);
+        font-weight: var(--font-weight-bold);
+    }
+
+    .navbar-brands span {
+        display: inline-block;
+        vertical-align: middle;
+    }
+
+    .logos {
+        width: 40px;
+        height: auto;
+    }
+
+    .navbar-brands small {
+        color: var(--secondary-color);
+        display: block;
+        font-size: 10px;
+        line-height: normal;
+        text-transform: uppercase;
+    }
+</style>
+
 <div class="hk-menu">
     <!-- Brand -->
     <div class="menu-header">
         <span>
-            <a class="navbar-brand" href="/">
-                <img class="brand-img img-fluid" src="{{ asset('dist/img/brand-sm.svg') }}" alt="brand" />
+            {{-- <a class="navbar-brand" href="/">
+                <img class="brand-img img-fluid" src="{{ asset('assets/landing/images/icon.png') }}" width="35"
+                    alt="logo" />
                 <img class="brand-img img-fluid" src="{{ asset('dist/img/Jampack.svg') }}" alt="brand" />
+                <h5>SISPAM-DES</h5>
+            </a> --}}
+            <a class="navbar-brands" href="/">
+                <img src="{{ asset('assets/landing/images/icon.png') }}" class="logos img-fluid me-2" alt="Kind Heart Charity">
+                <span>
+                    <b>SISPAM-DES</b>
+                    <small>Sistem Pendataan SPAM</small>
+                </span>
             </a>
             <button class="btn btn-icon btn-rounded btn-flush-dark flush-soft-hover navbar-toggle">
                 <span class="icon">
@@ -30,8 +65,8 @@
         <div class="menu-content-wrap">
             <div class="menu-group">
                 <ul class="navbar-nav flex-column">
-                    <li class="nav-item active">
-                        <a class="nav-link" href="/">
+                    <li class="nav-item {{ request()->routeIs('dashboard') ? 'active' : '' }}">
+                        <a class="nav-link" href="{{ route('dashboard') }}">
                             <span class="nav-icon-wrap">
                                 <span class="svg-icon">
                                     <svg xmlns="http://www.w3.org/2000/svg"
@@ -62,8 +97,8 @@
                 </div> --}}
                 <div class="separator"></div>
                 <ul class="navbar-nav flex-column">
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{route('harga.index')}}">
+                    <li class="nav-item {{ request()->routeIs('harga.index', 'harga.edit') ? 'active' : '' }}">
+                        <a class="nav-link" href="{{ route('harga.index') }}">
                             <span class="nav-icon-wrap">
                                 <span class="svg-icon">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17"
@@ -76,8 +111,9 @@
                             <span class="nav-link-text">Harga Air</span>
                         </a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/">
+                    <li
+                        class="nav-item {{ request()->routeIs('pendataans.index', 'pendataans.show', 'pendataans.edit') ? 'active' : '' }}">
+                        <a class="nav-link" href="{{ route('pendataans.index') }}">
                             <span class="nav-icon-wrap">
                                 <span class="svg-icon">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17"
@@ -93,8 +129,9 @@
                             <span class="nav-link-text">Riwayat Pendataan</span>
                         </a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{route('users.index')}}">
+                    <li
+                        class="nav-item {{ request()->routeIs('users.index', 'users.show', 'users.create', 'users.edit') ? 'active' : '' }}">
+                        <a class="nav-link" href="{{ route('users.index') }}">
                             <span class="nav-icon-wrap">
                                 <span class="svg-icon">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17"
@@ -107,9 +144,10 @@
                             <span class="nav-link-text">Pengguna</span>
                         </a>
                     </li>
-                 
-                    <li class="nav-item">
-                        <a class="nav-link" href="/">
+
+                    <li
+                        class="nav-item {{ request()->routeIs('pengaduans.index', 'pengaduans.show') ? 'active' : '' }}">
+                        <a class="nav-link" href="{{ route('pengaduans.index') }}">
                             <span class="nav-icon-wrap">
                                 <span class="svg-icon">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17"
@@ -122,6 +160,22 @@
                                 </span>
                             </span>
                             <span class="nav-link-text">Kritik & Saran</span>
+                        </a>
+                    </li>
+
+                    <li
+                        class="nav-item {{ request()->routeIs('profile.index', 'profile.password', 'profile.edit') ? 'active' : '' }}">
+                        <a class="nav-link" href="{{ route('profile.index') }}">
+                            <span class="nav-icon-wrap">
+                                <span class="svg-icon">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17"
+                                        fill="currentColor" class="bi bi-person" viewBox="0 0 17 17">
+                                        <path
+                                            d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6Zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0Zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4Zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10Z" />
+                                    </svg>
+                                </span>
+                            </span>
+                            <span class="nav-link-text">Profil</span>
                         </a>
                     </li>
                 </ul>

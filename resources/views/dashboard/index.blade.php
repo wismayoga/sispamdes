@@ -9,172 +9,142 @@
                 <div class="d-flex">
                     <div class="d-flex flex-wrap justify-content-between flex-1">
                         <div class="mb-lg-0 mb-2 me-8">
-                            <h1 class="pg-title">Welcome back</h1>
-                            <p>Create pages using a variety of features that leverage jampack components</p>
+                            <h1 class="pg-title">Selamat Datang, {{ auth()->user()->nama }}!</h1>
+                            <p>Sistem Pendataan Pengelolaan Air Minum Desa Kayuputih</p>
                         </div>
                         <div class="pg-header-action-wrap">
-                            <div class="input-group w-300p">
+                            <div class="p-2 px-4 border border-light rounded-5">
                                 <span class="input-affix-wrapper">
-                                    <span class="input-prefix"><span class="feather-icon"><i
-                                                data-feather="calendar"></i></span></span>
-                                    <input class="form-control form-wth-icon" name="datetimes"
-                                        value="Aug 18,2020 - Aug 19, 2020">
+                                    <span>Periode Bulan: <b>{{ $namabulan }}</b></span>
                                 </span>
                             </div>
                         </div>
                     </div>
                 </div>
-                <ul class="nav nav-line nav-light nav-tabs">
-                    <li class="nav-item">
-                        <a class="nav-link active" data-bs-toggle="tab" href="#">
-                            <span class="nav-link-text">Overview</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" data-bs-toggle="tab" href="#">
-                            <span class="nav-link-text">Analytics</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" data-bs-toggle="tab" href="#">
-                            <span class="nav-link-text">Operations</span>
-                        </a>
-                    </li>
-                </ul>
             </div>
             <!-- /Page Header -->
 
             <!-- Page Body -->
             <div class="hk-pg-body">
+
+                <div class="col-6">
+                    <select id="alternatifsFilter" class="form-select btn btn-soft-secondary text-start opacity-0"
+                        aria-label="Default select example" style="width: 150px; position: absolute; left: -9999px;">
+                        <option class="btn btn-soft-light text-start" value="">Semua</option>
+                    </select>
+                </div>
+                <div class="row">
+                    <div class="col-sm-4 col-12">
+                        <div class="card card-sm mt-3">
+                            <div class="hk-ribbon-type-1 overhead-start">
+                                <span>Pelanggan</span>
+                            </div>
+                            <div class="card-body mt-4">
+                                <div class="ps-3">
+                                    <h5 class="card-title">Aktif <span class="badge badge-success badge-indicator"></span>
+                                    </h5>
+                                    <h3>
+                                        <strong>{{ $pelangganAktif }}</strong> of {{ $pelanggan }}
+                                    </h3>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="card card-sm mt-3">
+                            <div class="hk-ribbon-type-1 overhead-start">
+                                <span>Pendapatan</span>
+                            </div>
+                            <div class="card-body mt-4">
+                                <h5 class="card-title">Total Pendapatan:</h5>
+                                <h3 class="">Rp.{{ number_format($pendapatan, 0, ',', '.') }},-</h3>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="card card-sm mt-3">
+                            <div class="hk-ribbon-type-1 overhead-start">
+                                <span>Kritik & Saran</span>
+                            </div>
+                            <div class="card-body mt-4">
+                                <h5 class="card-title">Belum dilihat: </h5>
+                                <h3 class="">
+                                    {{ $krisar }}
+                                    @if ($krisar > 0)
+                                        <a class="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover pb-1"
+                                            data-bs-toggle="tooltip" data-bs-placement="top" title=""
+                                            data-bs-original-title="Lihat Kritik/Saran"
+                                            href="{{ route('pengaduans.index') }}">
+                                            <span class="icon">
+                                                <span class="feather-icon">
+                                                    <i data-feather="message-square" class=""></i>
+                                                </span>
+                                            </span>
+                                        </a>
+                                    @else
+                                        <span>-</span>
+                                    @endif
+                                </h3>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
                 <div class="tab-content">
                     <div class="tab-pane fade show active" id="tab_block_1">
                         <div class="row">
                             <div class="col-xxl-9 col-lg-8 col-md-7 mb-md-4 mb-3">
                                 <div class="card card-border mb-0 h-100">
                                     <div class="card-header card-header-action">
-                                        <h6>Audience Overview</h6>
-                                        <div class="card-action-wrap">
-                                            <div class="btn-group d-lg-flex d-none" role="group"
-                                                aria-label="Basic outlined example">
-                                                <button type="button" class="btn btn-outline-light active">All</button>
-                                                <button type="button" class="btn btn-outline-light">Sessions</button>
-                                                <button type="button" class="btn btn-outline-light">Source</button>
-                                                <button type="button" class="btn btn-outline-light">Referrals</button>
-                                            </div>
-                                            <select class="form-select d-lg-none d-flex">
-                                                <option selected="" value="1">All</option>
-                                                <option value="2">Sessions</option>
-                                                <option value="3">Source</option>
-                                                <option value="4">Referrals</option>
-                                            </select>
-                                        </div>
+                                        <h6>Statistik penggunaan air</h6>
                                     </div>
                                     <div class="card-body">
                                         <div class="text-center">
-                                            <div class="d-inline-block">
+                                            <div class="d-inline-block ms-3">
+                                                <span class="badge-status">
+                                                    <span class="badge bg-sky badge-indicator badge-indicator-nobdr"></span>
+                                                    <span class="badge-label">Penggunaan Air</span>
+                                                </span>
+                                            </div>
+                                            {{-- <div class="d-inline-block ms-3">
                                                 <span class="badge-status">
                                                     <span
-                                                        class="badge bg-primary badge-indicator badge-indicator-nobdr"></span>
-                                                    <span class="badge-label">Direct</span>
+                                                        class="badge bg-green badge-indicator badge-indicator-nobdr"></span>
+                                                    <span class="badge-label">Pendapatan</span>
                                                 </span>
                                             </div>
                                             <div class="d-inline-block ms-3">
                                                 <span class="badge-status">
                                                     <span
-                                                        class="badge bg-primary-light-2 badge-indicator badge-indicator-nobdr"></span>
-                                                    <span class="badge-label">Organic search</span>
+                                                        class="badge bg-orange badge-indicator badge-indicator-nobdr"></span>
+                                                    <span class="badge-label">Kritik dan Saran</span>
                                                 </span>
-                                            </div>
-                                            <div class="d-inline-block ms-3">
-                                                <span class="badge-status">
-                                                    <span
-                                                        class="badge bg-primary-light-4 badge-indicator badge-indicator-nobdr"></span>
-                                                    <span class="badge-label">Referral</span>
-                                                </span>
-                                            </div>
+                                            </div> --}}
                                         </div>
-                                        <div id="column_chart_2"></div>
-                                        <div class="separator-full mt-5"></div>
-                                        <div class="flex-grow-1 ms-lg-3">
-                                            <div class="row">
-                                                <div class="col-xxl-3 col-sm-6 mb-xxl-0 mb-3">
-                                                    <span class="d-block fw-medium fs-7">Users</span>
-                                                    <div class="d-flex align-items-center">
-                                                        <span class="d-block fs-4 fw-medium text-dark mb-0">8.8k</span>
-                                                        <span class="badge badge-sm badge-soft-success ms-1">
-                                                            <i class="bi bi-arrow-up"></i> 7.5%
-                                                        </span>
-                                                    </div>
-                                                </div>
-                                                <div class="col-xxl-3 col-sm-6 mb-xxl-0 mb-3">
-                                                    <span class="d-block fw-medium fs-7">Sessions</span>
-                                                    <div class="d-flex align-items-center">
-                                                        <span class="d-block fs-4 fw-medium text-dark mb-0">18.2k</span>
-                                                        <span class="badge badge-sm badge-soft-success ms-1">
-                                                            <i class="bi bi-arrow-up"></i> 7.2%
-                                                        </span>
-                                                    </div>
-                                                </div>
-                                                <div class="col-xxl-3 col-sm-6 mb-xxl-0 mb-3">
-                                                    <span class="d-block fw-medium fs-7">Bounce rate</span>
-                                                    <div class="d-flex align-items-center">
-                                                        <span class="d-block fs-4 fw-medium text-dark mb-0">46.2%</span>
-                                                        <span class="badge badge-sm badge-soft-danger ms-1">
-                                                            <i class="bi bi-arrow-down"></i> 0.2%
-                                                        </span>
-                                                    </div>
-                                                </div>
-                                                <div class="col-xxl-3 col-sm-6">
-                                                    <span class="d-block fw-medium fs-7">Session duration</span>
-                                                    <div class="d-flex align-items-center">
-                                                        <span class="d-block fs-4 fw-medium text-dark mb-0">4m
-                                                            24s</span>
-                                                        <span class="badge badge-sm badge-soft-success ms-1">
-                                                            <i class="bi bi-arrow-up"></i> 10.8%
-                                                        </span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
+                                        <div id="chart_sispam1"></div>
                                     </div>
                                 </div>
                             </div>
                             <div class="col-xxl-3 col-lg-4 col-md-5 mb-md-4 mb-3">
                                 <div class="card card-border mb-0  h-100">
                                     <div class="card-header card-header-action">
-                                        <h6>Returning Customers</h6>
-                                        <div class="card-action-wrap">
-                                            <a class="btn btn-icon btn-rounded btn-flush-dark flush-soft-hover dropdown-toggle no-caret"
-                                                href="#" data-bs-toggle="dropdown"><span class="icon"><span
-                                                        class="feather-icon"><i
-                                                            data-feather="more-vertical"></i></span></span></a>
-                                            <div class="dropdown-menu dropdown-menu-end">
-                                                <a class="dropdown-item" href="#">Action</a>
-                                                <a class="dropdown-item" href="#">Another action</a>
-                                                <a class="dropdown-item" href="#">Something else here</a>
-                                                <div class="dropdown-divider"></div>
-                                                <a class="dropdown-item" href="#">Separated link</a>
-                                            </div>
-                                        </div>
+                                        <h6>Progres Pendataan</h6>
+
                                     </div>
                                     <div class="card-body text-center">
-                                        <div id="radial_chart_2"></div>
+                                        <div id="progres_chart"></div>
                                         <div class="d-inline-block mt-4">
                                             <div class="mb-4">
                                                 <span class="d-block badge-status lh-1">
                                                     <span
                                                         class="badge bg-primary badge-indicator badge-indicator-nobdr d-inline-block"></span>
-                                                    <span class="badge-label d-inline-block">Organic</span>
+                                                    <span class="badge-label d-inline-block">Jumlah Pendataan</span>
                                                 </span>
-                                                <span class="d-block text-dark fs-5 fw-medium mb-0 mt-1">$243.50</span>
-                                            </div>
-                                            <div>
-                                                <span class="badge-status lh-1">
-                                                    <span
-                                                        class="badge bg-primary-light-2 badge-indicator badge-indicator-nobdr"></span>
-                                                    <span class="badge-label">Marketing</span>
-                                                </span>
-                                                <span class="d-block text-dark fs-5 fw-medium mb-0 mt-1">$1469</span>
+                                                <span
+                                                    class="d-block text-dark fs-5 fw-medium mb-0 mt-1">{{ $jumlahPendataan }}
+                                                    / {{ $pelangganAktif }} Pelanggan</span>
                                             </div>
                                         </div>
                                     </div>
@@ -185,525 +155,60 @@
                             <div class="col-md-12 mb-md-4 mb-3">
                                 <div class="card card-border mb-0 h-100">
                                     <div class="card-header card-header-action">
-                                        <h6>Active users</h6>
-                                        <div class="card-action-wrap">
-                                            <button type="button" class="btn btn-outline-light">Real time
-                                                chart</button>
-                                        </div>
-                                    </div>
-                                    <div class="card-body">
-                                        <div class="row">
-                                            <div class="col-md-8">
-                                                <div id="anim_map_2" class="h-300p"></div>
-                                            </div>
-                                            <div class="col-md-4">
-                                                <div class="media align-items-center mb-3">
-                                                    <div class="media-head me-3">
-                                                        <div class="avatar avatar-xxs avatar-rounded">
-                                                            <img src="dist/fonts/flags/4x3/us.svg" alt="user"
-                                                                class="avatar-img">
-                                                        </div>
-                                                    </div>
-                                                    <div class="media-body">
-                                                        <div class="progress-lb-wrap">
-                                                            <label class="progress-label mb-0">United
-                                                                States</label>
-                                                            <div class="d-flex align-items-center">
-                                                                <div
-                                                                    class="progress progress-bar-rounded progress-bar-xs flex-1">
-                                                                    <div class="progress-bar bg-blue-dark-3 w-80"
-                                                                        role="progressbar" aria-valuenow="80"
-                                                                        aria-valuemin="0" aria-valuemax="100">
-                                                                    </div>
-                                                                </div>
-                                                                <div class="fs-8 mnw-30p ms-3">80%</div>
-                                                            </div>
-                                                        </div>
-
-                                                    </div>
-                                                </div>
-                                                <div class="media align-items-center mb-3">
-                                                    <div class="media-head me-3">
-                                                        <div class="avatar avatar-xxs avatar-rounded">
-                                                            <img src="dist/fonts/flags/4x3/in.svg" alt="user"
-                                                                class="avatar-img">
-                                                        </div>
-                                                    </div>
-                                                    <div class="media-body">
-                                                        <div class="progress-lb-wrap">
-                                                            <label class="progress-label mb-0">India</label>
-                                                            <div class="d-flex align-items-center">
-                                                                <div
-                                                                    class="progress progress-bar-rounded progress-bar-xs flex-1">
-                                                                    <div class="progress-bar bg-blue w-50"
-                                                                        role="progressbar" aria-valuenow="50"
-                                                                        aria-valuemin="0" aria-valuemax="100">
-                                                                    </div>
-                                                                </div>
-                                                                <div class="fs-8 mnw-30p ms-3">50%</div>
-                                                            </div>
-                                                        </div>
-
-                                                    </div>
-                                                </div>
-                                                <div class="media align-items-center mb-3">
-                                                    <div class="media-head me-3">
-                                                        <div class="avatar avatar-xxs avatar-rounded">
-                                                            <img src="dist/fonts/flags/4x3/gb.svg" alt="user"
-                                                                class="avatar-img">
-                                                        </div>
-                                                    </div>
-                                                    <div class="media-body">
-                                                        <div class="progress-lb-wrap">
-                                                            <label class="progress-label mb-0">United
-                                                                Kingdom</label>
-                                                            <div class="d-flex align-items-center">
-                                                                <div
-                                                                    class="progress progress-bar-rounded progress-bar-xs flex-1">
-                                                                    <div class="progress-bar bg-primary w-30"
-                                                                        role="progressbar" aria-valuenow="30"
-                                                                        aria-valuemin="0" aria-valuemax="100">
-                                                                    </div>
-                                                                </div>
-                                                                <div class="fs-8 mnw-30p ms-3">30%</div>
-                                                            </div>
-                                                        </div>
-
-                                                    </div>
-                                                </div>
-                                                <div class="media align-items-center mb-3">
-                                                    <div class="media-head me-3">
-                                                        <div class="avatar avatar-xxs avatar-rounded">
-                                                            <img src="dist/fonts/flags/4x3/au.svg" alt="user"
-                                                                class="avatar-img">
-                                                        </div>
-                                                    </div>
-                                                    <div class="media-body">
-                                                        <div class="progress-lb-wrap">
-                                                            <label class="progress-label mb-0">Australia</label>
-                                                            <div class="d-flex align-items-center">
-                                                                <div
-                                                                    class="progress progress-bar-rounded progress-bar-xs flex-1">
-                                                                    <div class="progress-bar bg-grey-dark-2 w-15"
-                                                                        role="progressbar" aria-valuenow="15"
-                                                                        aria-valuemin="0" aria-valuemax="100">
-                                                                    </div>
-                                                                </div>
-                                                                <div class="fs-8 mnw-30p ms-3">15%</div>
-                                                            </div>
-                                                        </div>
-
-                                                    </div>
-                                                </div>
-                                                <div class="media align-items-center">
-                                                    <div class="media-head me-3">
-                                                        <div class="avatar avatar-xxs avatar-rounded">
-                                                            <img src="dist/fonts/flags/4x3/ca.svg" alt="user"
-                                                                class="avatar-img">
-                                                        </div>
-                                                    </div>
-                                                    <div class="media-body">
-                                                        <div class="progress-lb-wrap">
-                                                            <label class="progress-label mb-0">Canada</label>
-                                                            <div class="d-flex align-items-center">
-                                                                <div
-                                                                    class="progress progress-bar-rounded progress-bar-xs flex-1">
-                                                                    <div class="progress-bar bg-grey w-10"
-                                                                        role="progressbar" aria-valuenow="10"
-                                                                        aria-valuemin="0" aria-valuemax="100">
-                                                                    </div>
-                                                                </div>
-                                                                <div class="fs-8 mnw-30p ms-3">10%</div>
-                                                            </div>
-                                                        </div>
-
-                                                    </div>
-                                                </div>
-
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-12 mb-md-4 mb-3">
-                                <div class="card card-border mb-0 h-100">
-                                    <div class="card-header card-header-action">
-                                        <h6>New Customers
-                                            <span class="badge badge-sm badge-light ms-1">240</span>
+                                        <h6>Pendataan Terbaru
+                                            <span class="badge badge-sm badge-light ms-1">{{ $pendataanterbaru }}</span>
                                         </h6>
-                                        <div class="card-action-wrap">
-                                            <button class="btn btn-sm btn-outline-light"><span><span class="icon"><span
-                                                            class="feather-icon"><i
-                                                                data-feather="upload"></i></span></span><span
-                                                        class="btn-text">import</span></span></button>
-                                            <button class="btn btn-sm btn-primary ms-3"><span><span class="icon"><span
-                                                            class="feather-icon"><i
-                                                                data-feather="plus"></i></span></span><span
-                                                        class="btn-text">Add new</span></span></button>
-                                        </div>
                                     </div>
                                     <div class="card-body">
-                                        <div class="contact-list-view">
-                                            <table id="datable_1" class="table nowrap w-100 mb-5">
+                                        <div class="table-responsive">
+                                            <table class="table table-hover table-filter mb-0 filter" id="filterTable">
                                                 <thead>
                                                     <tr>
-                                                        <th><span class="form-check fs-6 mb-0">
-                                                                <input type="checkbox"
-                                                                    class="form-check-input check-select-all"
-                                                                    id="customCheck1">
-                                                                <label class="form-check-label"
-                                                                    for="customCheck1"></label>
-                                                            </span></th>
-                                                        <th>Name</th>
-                                                        <th class="w-25">Usage</th>
-                                                        <th>Last Update</th>
-                                                        <th>Tags</th>
-                                                        <th></th>
+                                                        <th class="mnw-50p opacity-50">#</th>
+                                                        <th class="mnw-100p">Petugas</th>
+                                                        <th class="mnw-150p">Pelanggan</th>
+                                                        <th class="mnw-50p">Nilai Meteran(m<sup>3</sup>)</th>
+                                                        <th class="mnw-50p">Penggunaan(m<sup>3</sup>)</th>
+                                                        <th class="mnw-100p">Total Harga</th>
+                                                        <th class="mnw-50p text-center">Status</th>
+                                                        <th class="mnw-150p">Tanggal</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    <tr>
-                                                        <td>
-                                                        </td>
-                                                        <td>
-                                                            <div class="media align-items-center">
-                                                                <div class="media-head me-2">
-                                                                    <div class="avatar avatar-xs avatar-rounded">
-                                                                        <img src="dist/img/logo-avatar-1.png"
-                                                                            alt="user" class="avatar-img">
-                                                                    </div>
-                                                                </div>
-                                                                <div class="media-body">
-                                                                    <div class="text-high-em">Phone Pay</div>
-                                                                    <div class="fs-7"><a href="#"
-                                                                            class="table-link-text link-medium-em">phonepay.in</a>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </td>
-                                                        <td>
-                                                            <div class="progress-lb-wrap">
-                                                                <div class="d-flex align-items-center">
-                                                                    <div
-                                                                        class="progress progress-bar-rounded progress-bar-xs flex-1">
-                                                                        <div class="progress-bar bg-blue-dark-3 w-90"
-                                                                            role="progressbar" aria-valuenow="90"
-                                                                            aria-valuemin="0" aria-valuemax="100"></div>
-                                                                    </div>
-                                                                    <div class="fs-8 ms-3">90%</div>
-                                                                </div>
-                                                            </div>
-                                                        </td>
-                                                        <td>10 June, 2022</td>
-                                                        <td>
-                                                            <span
-                                                                class="badge badge-soft-secondary  my-1  me-2">admin</span>
-                                                            <span
-                                                                class="badge badge-soft-secondary my-1  me-2">Finance</span>
-                                                        </td>
-                                                        <td>
-                                                            <div class="d-flex align-items-center">
-                                                                <a class="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover"
-                                                                    data-bs-toggle="tooltip" data-placement="top"
-                                                                    title="" data-bs-original-title="Edit"
-                                                                    href="#"><span class="icon"><span
-                                                                            class="feather-icon"><i
-                                                                                data-feather="edit-2"></i></span></span></a>
-                                                                <a class="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover del-button"
-                                                                    data-bs-toggle="tooltip" data-placement="top"
-                                                                    title="" data-bs-original-title="Delete"
-                                                                    href="#"><span class="icon"><span
-                                                                            class="feather-icon"><i
-                                                                                data-feather="trash"></i></span></span></a>
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>
-                                                        </td>
-                                                        <td>
-                                                            <div class="media align-items-center">
-                                                                <div class="media-head me-2">
-                                                                    <div class="avatar avatar-xs avatar-rounded">
-                                                                        <img src="dist/img/logo-avatar-2.png"
-                                                                            alt="user" class="avatar-img">
-                                                                    </div>
-                                                                </div>
-                                                                <div class="media-body">
-                                                                    <div class="text-high-em">Swiggy</div>
-                                                                    <div class="fs-7"><a href="#"
-                                                                            class="table-link-text link-medium-em">swiggy.com</a>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </td>
-                                                        <td>
-                                                            <div class="progress-lb-wrap">
-                                                                <div class="d-flex align-items-center">
-                                                                    <div
-                                                                        class="progress progress-bar-rounded progress-bar-xs flex-1">
-                                                                        <div class="progress-bar bg-blue w-75"
-                                                                            role="progressbar" aria-valuenow="75"
-                                                                            aria-valuemin="0" aria-valuemax="100"></div>
-                                                                    </div>
-                                                                    <div class="fs-8 ms-3">75%</div>
-                                                                </div>
-                                                            </div>
-                                                        </td>
-                                                        <td>09 July, 2022</td>
-                                                        <td>
-                                                            <span class="badge badge-soft-secondary my-1  me-2">customer
-                                                                data</span>
-                                                            <span
-                                                                class="badge badge-soft-secondary  my-1  me-2">admin</span>
-                                                            <span class="badge badge-soft-secondary  my-1  me-2">+4</span>
-                                                        </td>
-                                                        <td>
-                                                            <div class="d-flex align-items-center">
-                                                                <a class="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover"
-                                                                    data-bs-toggle="tooltip" data-placement="top"
-                                                                    title="" data-bs-original-title="Edit"
-                                                                    href="#"><span class="icon"><span
-                                                                            class="feather-icon"><i
-                                                                                data-feather="edit-2"></i></span></span></a>
-                                                                <a class="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover del-button"
-                                                                    data-bs-toggle="tooltip" data-placement="top"
-                                                                    title="" data-bs-original-title="Delete"
-                                                                    href="#"><span class="icon"><span
-                                                                            class="feather-icon"><i
-                                                                                data-feather="trash"></i></span></span></a>
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>
-                                                        </td>
-                                                        <td>
-                                                            <div class="media align-items-center">
-                                                                <div class="media-head me-2">
-                                                                    <div class="avatar avatar-xs avatar-rounded">
-                                                                        <img src="dist/img/logo-avatar-3.png"
-                                                                            alt="user" class="avatar-img">
-                                                                    </div>
-                                                                </div>
-                                                                <div class="media-body">
-                                                                    <div class="text-high-em">Coursera</div>
-                                                                    <div class="fs-7"><a href="#"
-                                                                            class="table-link-text link-medium-em">coursera.com</a>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </td>
-                                                        <td>
-                                                            <div class="progress-lb-wrap">
-                                                                <div class="d-flex align-items-center">
-                                                                    <div
-                                                                        class="progress progress-bar-rounded progress-bar-xs flex-1">
-                                                                        <div class="progress-bar bg-primary w-50"
-                                                                            role="progressbar" aria-valuenow="50"
-                                                                            aria-valuemin="0" aria-valuemax="100"></div>
-                                                                    </div>
-                                                                    <div class="fs-8 ms-3">50%</div>
-                                                                </div>
-                                                            </div>
-                                                        </td>
-                                                        <td>24 Aug, 2022</td>
-                                                        <td>
-                                                            <span
-                                                                class="badge badge-soft-secondary my-1  me-2">education</span>
-                                                            <span
-                                                                class="badge badge-soft-secondary  my-1  me-2">admin</span>
-                                                            <span class="badge badge-soft-secondary  my-1  me-2">+3</span>
-                                                        </td>
-                                                        <td>
-                                                            <div class="d-flex align-items-center">
-                                                                <a class="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover"
-                                                                    data-bs-toggle="tooltip" data-placement="top"
-                                                                    title="" data-bs-original-title="Edit"
-                                                                    href="#"><span class="icon"><span
-                                                                            class="feather-icon"><i
-                                                                                data-feather="edit-2"></i></span></span></a>
-                                                                <a class="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover del-button"
-                                                                    data-bs-toggle="tooltip" data-placement="top"
-                                                                    title="" data-bs-original-title="Delete"
-                                                                    href="#"><span class="icon"><span
-                                                                            class="feather-icon"><i
-                                                                                data-feather="trash"></i></span></span></a>
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>
-                                                        </td>
-                                                        <td>
-                                                            <div class="media align-items-center">
-                                                                <div class="media-head me-2">
-                                                                    <div class="avatar avatar-xs avatar-rounded">
-                                                                        <img src="dist/img/logo-avatar-4.png"
-                                                                            alt="user" class="avatar-img">
-                                                                    </div>
-                                                                </div>
-                                                                <div class="media-body">
-                                                                    <div class="text-high-em">Tinder</div>
-                                                                    <div class="fs-7"><a href="#"
-                                                                            class="table-link-text link-medium-em">tinder.com</a>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </td>
-                                                        <td>
-                                                            <div class="progress-lb-wrap">
-                                                                <div class="d-flex align-items-center">
-                                                                    <div
-                                                                        class="progress progress-bar-rounded progress-bar-xs flex-1">
-                                                                        <div class="progress-bar bg-primary-dark-2 w-60"
-                                                                            role="progressbar" aria-valuenow="60"
-                                                                            aria-valuemin="0" aria-valuemax="100"></div>
-                                                                    </div>
-                                                                    <div class="fs-8 ms-3">60%</div>
-                                                                </div>
-                                                            </div>
-                                                        </td>
-                                                        <td>17 May, 2022</td>
-                                                        <td>
-                                                            <span
-                                                                class="badge badge-soft-secondary my-1  me-2">Social</span>
-                                                        </td>
-                                                        <td>
-                                                            <div class="d-flex align-items-center">
-                                                                <a class="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover"
-                                                                    data-bs-toggle="tooltip" data-placement="top"
-                                                                    title="" data-bs-original-title="Edit"
-                                                                    href="#"><span class="icon"><span
-                                                                            class="feather-icon"><i
-                                                                                data-feather="edit-2"></i></span></span></a>
-                                                                <a class="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover del-button"
-                                                                    data-bs-toggle="tooltip" data-placement="top"
-                                                                    title="" data-bs-original-title="Delete"
-                                                                    href="#"><span class="icon"><span
-                                                                            class="feather-icon"><i
-                                                                                data-feather="trash"></i></span></span></a>
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>
-                                                        </td>
-                                                        <td>
-                                                            <div class="media align-items-center">
-                                                                <div class="media-head me-2">
-                                                                    <div class="avatar avatar-xs avatar-rounded">
-                                                                        <img src="dist/img/logo-avatar-5.png"
-                                                                            alt="user" class="avatar-img">
-                                                                    </div>
-                                                                </div>
-                                                                <div class="media-body">
-                                                                    <div class="text-high-em">PCD</div>
-                                                                    <div class="fs-7"><a href="#"
-                                                                            class="table-link-text link-medium-em">pcdeals.com</a>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </td>
-                                                        <td>
-                                                            <div class="progress-lb-wrap">
-                                                                <div class="d-flex align-items-center">
-                                                                    <div
-                                                                        class="progress progress-bar-rounded progress-bar-xs flex-1">
-                                                                        <div class="progress-bar bg-grey w-30"
-                                                                            role="progressbar" aria-valuenow="30"
-                                                                            aria-valuemin="0" aria-valuemax="100"></div>
-                                                                    </div>
-                                                                    <div class="fs-8 ms-3">30%</div>
-                                                                </div>
-                                                            </div>
-                                                        </td>
-                                                        <td>13 July, 2022</td>
-                                                        <td>
-                                                            <span
-                                                                class="badge badge-soft-secondary my-1  me-2">Portal</span>
-                                                            <span
-                                                                class="badge badge-soft-secondary  my-1  me-2">admin</span>
-                                                            <span class="badge badge-soft-secondary  my-1  me-2">+3</span>
-                                                        </td>
-                                                        <td>
-                                                            <div class="d-flex align-items-center">
-                                                                <a class="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover"
-                                                                    data-bs-toggle="tooltip" data-placement="top"
-                                                                    title="" data-bs-original-title="Edit"
-                                                                    href="#"><span class="icon"><span
-                                                                            class="feather-icon"><i
-                                                                                data-feather="edit-2"></i></span></span></a>
-                                                                <a class="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover del-button"
-                                                                    data-bs-toggle="tooltip" data-placement="top"
-                                                                    title="" data-bs-original-title="Delete"
-                                                                    href="#"><span class="icon"><span
-                                                                            class="feather-icon"><i
-                                                                                data-feather="trash"></i></span></span></a>
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>
-                                                        </td>
-                                                        <td>
-                                                            <div class="media align-items-center">
-                                                                <div class="media-head me-2">
-                                                                    <div class="avatar avatar-xs avatar-rounded">
-                                                                        <img src="dist/img/logo-avatar-6.png"
-                                                                            alt="user" class="avatar-img">
-                                                                    </div>
-                                                                </div>
-                                                                <div class="media-body">
-                                                                    <div class="text-high-em">Icons 8</div>
-                                                                    <div class="fs-7"><a href="#"
-                                                                            class="table-link-text link-medium-em">icons8.com</a>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </td>
-                                                        <td>
-                                                            <div class="progress-lb-wrap">
-                                                                <div class="d-flex align-items-center">
-                                                                    <div
-                                                                        class="progress progress-bar-rounded progress-bar-xs flex-1">
-                                                                        <div class="progress-bar bg-green-dark-1 w-45"
-                                                                            role="progressbar" aria-valuenow="45"
-                                                                            aria-valuemin="0" aria-valuemax="100"></div>
-                                                                    </div>
-                                                                    <div class="fs-8 ms-3">45%</div>
-                                                                </div>
-                                                            </div>
-                                                        </td>
-                                                        <td>14 July, 2022</td>
-                                                        <td>
-                                                            <span
-                                                                class="badge badge-soft-secondary my-1  me-2">Library</span>
-                                                            <span
-                                                                class="badge badge-soft-secondary  my-1  me-2">Asset</span>
-                                                        </td>
-                                                        <td>
-                                                            <div class="d-flex align-items-center">
-                                                                <a class="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover"
-                                                                    data-bs-toggle="tooltip" data-placement="top"
-                                                                    title="" data-bs-original-title="Edit"
-                                                                    href="#"><span class="icon"><span
-                                                                            class="feather-icon"><i
-                                                                                data-feather="edit-2"></i></span></span></a>
-                                                                <a class="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover del-button"
-                                                                    data-bs-toggle="tooltip" data-placement="top"
-                                                                    title="" data-bs-original-title="Delete"
-                                                                    href="#"><span class="icon"><span
-                                                                            class="feather-icon"><i
-                                                                                data-feather="trash"></i></span></span></a>
-                                                            </div>
-                                                        </td>
-                                                    </tr>
+                                                    @foreach ($pendataanTable as $key => $data)
+                                                        <tr>
+                                                            <td>{{ $key + 1 }}</td>
+                                                            <td>{{ $data->nama_petugas }}</td>
+                                                            <td>{{ $data->nama_pelanggan }}</td>
+                                                            <td>{{ $data->nilai_meteran }}</td>
+                                                            <td>{{ $data->total_penggunaan }}</td>
+                                                            <td>{{ $data->total_harga }}</td>
+                                                            <td>
+                                                                <form onsubmit="return confirm('Ingin mengubah status ?');"
+                                                                    action="{{ url('/pendataans/status', [$data->id]) }}"
+                                                                    method="post">
+                                                                    @method('put')
+                                                                    @csrf
+                                                                    <button class="badge badge-primary badge-pill"
+                                                                        data-bs-toggle="tooltip" data-bs-placement="top"
+                                                                        title="" data-bs-original-title="Ubah Status"
+                                                                        type="submit">
+                                                                        @if ($data->status_pembayaran == 'Lunas')
+                                                                            {{ $data->status_pembayaran }}
+                                                                        @else
+                                                                            {{ $data->status_pembayaran }}
+                                                                        @endif
+                                                                    </button>
+                                                                </form>
+                                                            </td>
+                                                            <td>{{ $data->created_at }}</td>
+                                                        </tr>
+                                                    @endforeach
+
                                                 </tbody>
                                             </table>
                                         </div>
+
                                     </div>
                                 </div>
                             </div>
@@ -715,3 +220,277 @@
         </div>
     </div>
 @endsection
+
+@push('script')
+    <!-- Apex JS -->
+    <script src="vendors/apexcharts/dist/apexcharts.min.js"></script>
+    <script src="dist/js/column-chart-init.js"></script>
+    {{-- <script>
+        /*Basic*/
+        var options = {
+            series: [{
+                name: 'Penggunaan Air',
+                data: {!! json_encode($penggunaanPerbulan) !!}
+            }, {
+                name: 'Pendapatan (skala 1:1000)',
+                data: {!! json_encode(
+                    collect($pendapatanPerbulan)->map(function ($value) {
+                        return $value / 1000;
+                    }),
+                ) !!}
+            }, {
+                name: 'Pelunasan',
+                data: [35, 41, 36, 26, 45, 48, 52, 53, 41, 45, 33, 12]
+            }],
+            chart: {
+                type: 'bar',
+                height: 350
+            },
+            plotOptions: {
+                bar: {
+                    horizontal: false,
+                    columnWidth: '55%',
+                },
+            },
+            dataLabels: {
+                enabled: false
+            },
+            stroke: {
+                show: true,
+                width: 2,
+                colors: ['transparent']
+            },
+            xaxis: {
+                categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+            },
+            yaxis: {
+                title: {
+                    text: ''
+                }
+            },
+            fill: {
+                opacity: 1
+            },
+            tooltip: {
+                y: {
+                    formatter: function(val) {
+                        return "" + val + ""
+                    }
+                }
+            }
+        };
+
+        var chart = new ApexCharts(document.querySelector("#chart_sispam1"), options);
+        chart.render();
+    </script> --}}
+
+    {{-- chart --}}
+    <script>
+        /*Basic*/
+        var options = {
+            series: [{
+                name: 'Penggunaan Air',
+                data: {!! json_encode($penggunaanPerbulan) !!}
+            }],
+            chart: {
+                type: 'bar',
+                height: 350
+            },
+            plotOptions: {
+                bar: {
+                    horizontal: false,
+                    columnWidth: '55%',
+                },
+            },
+            dataLabels: {
+                enabled: false
+            },
+            stroke: {
+                show: true,
+                width: 2,
+                colors: ['transparent']
+            },
+            xaxis: {
+                categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+            },
+            yaxis: {
+                title: {
+                    text: 'meter kubik'
+                }
+            },
+            fill: {
+                opacity: 1
+            },
+            tooltip: {
+                y: {
+                    formatter: function(val) {
+                        return val + " m<sup>3</sup>"
+                    }
+                }
+            },
+            colors: ['#80C959'],
+        };
+
+        var chart = new ApexCharts(document.querySelector("#chart_sispam1"), options);
+        chart.render();
+    </script>
+
+    {{-- progress --}}
+    <script>
+        /*Gradient Chart*/
+        var options3 = {
+            series: [{{ $persentasiPendataanBulat }}],
+            chart: {
+                height: 350,
+                type: 'radialBar',
+                toolbar: {
+                    show: true
+                }
+            },
+            plotOptions: {
+                radialBar: {
+                    startAngle: -135,
+                    endAngle: 225,
+                    hollow: {
+                        margin: 0,
+                        size: '60%',
+                        background: '#fff',
+                        image: undefined,
+                        imageOffsetX: 0,
+                        imageOffsetY: 0,
+                        position: 'front',
+                        dropShadow: {
+                            enabled: true,
+                            top: 3,
+                            left: 0,
+                            blur: 4,
+                            opacity: 0.24
+                        }
+                    },
+                    track: {
+                        background: '#fff',
+                        strokeWidth: '67%',
+                        margin: 0, // margin is in pixels
+                        dropShadow: {
+                            enabled: true,
+                            top: -3,
+                            left: 0,
+                            blur: 4,
+                            opacity: 0.35
+                        }
+                    },
+
+                    dataLabels: {
+                        show: true,
+                        name: {
+                            offsetY: -10,
+                            show: true,
+                            color: '#888',
+                            fontSize: '17px'
+                        },
+                        value: {
+                            formatter: function(val) {
+                                return parseInt(val);
+                            },
+                            color: '#111',
+                            fontSize: '36px',
+                            show: true,
+                        }
+                    }
+                }
+            },
+            fill: {
+                type: 'gradient',
+                gradient: {
+                    shade: 'dark',
+                    type: 'horizontal',
+                    shadeIntensity: 0.5,
+                    gradientToColors: ['#ABE5A1'],
+                    inverseColors: true,
+                    opacityFrom: 1,
+                    opacityTo: 1,
+                    stops: [0, 100]
+                }
+            },
+            stroke: {
+                lineCap: 'round'
+            },
+            labels: ['Persen'],
+            colors: ['#1ab7ea', '#0084ff', '#39539E', '#0077B5'],
+
+        };
+
+        var chart3 = new ApexCharts(document.querySelector("#progres_chart"), options3);
+        chart3.render();
+    </script>
+
+    {{-- tabel --}}
+    <script>
+        $("document").ready(function() {
+            $("#filterTable").dataTable({
+                "searching": true,
+                "position": "relative",
+                "left": "-100px",
+                // "order": [
+                //     [1, "asc"]
+                // ], 
+                // will it sort only for that page?
+                // "paging":   false,
+                // "lengthMenu": [
+                //     [10, 50, 100, 150],
+                //     [10, 50, 100, 150]
+                // ],
+                // scrollY: 400
+                language: {
+                    searchPlaceholder: "Cari",
+                    search: "",
+                },
+                // "dom": "<'col-sm-12 col-md-4'><'col-sm-12 col-md-4'f><'col-sm-12 col-md-4'l>"
+                "drawCallback": function(settings) {
+                    feather.replace();
+                },
+            });
+
+            //Get a reference to the new datatable
+            var table = $('#filterTable').DataTable();
+
+            //Take the category filter drop down and append it to the datatables_filter div. 
+            //You can use this same idea to move the filter anywhere withing the datatable that you want.
+
+            // $("#filterTable_filter.dataTables_filter").append($("#searchBar"));
+            // $("#alternatifsFilter").append($("#filterTable_filter.dataTables_filter"));
+
+            //Get the column index for the Category column to be used in the method below ($.fn.dataTable.ext.search.push)
+            //This tells datatables what column to filter on when a user selects a value from the dropdown.
+            //It's important that the text used here (Category) is the same for used in the header of the column to filter
+            var categoryIndex = 0;
+            $("#filterTable th").each(function(i) {
+                if ($($(this)).html() == "Pelanggan") {
+                    categoryIndex = i;
+                    return false;
+                }
+            });
+
+            //Use the built in datatables API to filter the existing rows by the Category column
+            $.fn.dataTable.ext.search.push(
+                function(settings, data, dataIndex) {
+                    var selectedItem = $('#alternatifsFilter').val()
+                    var category = data[categoryIndex];
+                    if (selectedItem === "" || category.includes(selectedItem)) {
+                        return true;
+                    }
+                    return false;
+                }
+            );
+
+
+            //Set the change event for the Category Filter dropdown to redraw the datatable each time
+            //a user selects a new filter.
+            $("#alternatifsFilter").change(function(e) {
+                table.draw();
+            });
+
+            table.draw();
+        });
+    </script>
+@endpush

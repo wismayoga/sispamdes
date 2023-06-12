@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('nama_pelanggan');
             $table->integer('nilai_meteran');
             $table->string('foto_meteran');
+            $table->integer('total_penggunaan');
             $table->integer('total_harga');
             $table->string('status_pembayaran');
             $table->timestamps();

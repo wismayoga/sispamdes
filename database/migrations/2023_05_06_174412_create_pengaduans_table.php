@@ -16,11 +16,11 @@ return new class extends Migration
         Schema::create('pengaduans', function (Blueprint $table) {
             $table->id();
             $table->string('id_pelanggan');
-            $table->string('nama');
             $table->string('pengaduan');
             $table->string('status_pengaduan');
             $table->string('foto_pengaduan');
             $table->timestamps();
+            $table->foreign('id_pelanggan')->references('id')->on('users')->onDelete('cascade');
         });
     }
 
