@@ -145,7 +145,7 @@ class UserController extends Controller
         
 
         //kembali
-        return redirect()->route('users.index')->with(['success' => 'Harga Berhasil Diubah!']);
+        return redirect()->route('users.index')->with(['success' => 'Data Berhasil Diubah!']);
     }
 
     public function destroy(User $user)

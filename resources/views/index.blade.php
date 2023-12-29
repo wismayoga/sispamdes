@@ -16,6 +16,31 @@
     <link href="{{ asset('assets/landing/css/bootstrap-icons.css') }}" rel="stylesheet">
 
     <link href="{{ asset('assets/landing/css/templatemo-kind-heart-charity.css') }}" rel="stylesheet">
+    <style>
+        .nav-item-visible {
+            display: none;
+            /* Initially hide the navigation element */
+        }
+
+        @media screen and (min-width: 992px) {
+            .nav-item-visible {
+                display: block;
+                /* Show the navigation element on screens wider than 992px */
+            }
+        }
+
+        .nav-items-visible2 {
+            display: none;
+            /* Initially hide the navigation elements */
+        }
+
+        @media screen and (max-width: 992px) {
+            .nav-items-visible2 {
+                display: block;
+                /* Show the navigation elements on screens 992px or below */
+            }
+        }
+    </style>
     <!--
 
 TemplateMo 581 Kind Heart Charity
@@ -41,8 +66,8 @@ https://templatemo.com/tm-581-kind-heart-charity
                     <p class="d-flex mb-0">
                         <i class="bi-envelope me-2"></i>
 
-                        <a href="mailto:info@company.com">
-                            Desakayuputih17@gmail.com
+                        <a href="mailto:desakayuputih17@gmail.com">
+                            desakayuputih17@gmail.com
                         </a>
                     </p>
                 </div>
@@ -50,11 +75,7 @@ https://templatemo.com/tm-581-kind-heart-charity
                 <div class="col-lg-3 col-12 ms-auto d-lg-block d-none">
                     <ul class="social-icon">
                         <li class="social-icon-item">
-                            <a href="#" class="social-icon-link bi-twitter"></a>
-                        </li>
-
-                        <li class="social-icon-item">
-                            <a href="#" class="social-icon-link bi-facebook"></a>
+                            <a href="https://web.facebook.com/pemerintahan.desakayuputih.14"  target="_blank" class="social-icon-link bi-facebook"></a>
                         </li>
 
                         <li class="social-icon-item">
@@ -62,11 +83,11 @@ https://templatemo.com/tm-581-kind-heart-charity
                         </li>
 
                         <li class="social-icon-item">
-                            <a href="#" class="social-icon-link bi-youtube"></a>
+                            <a href="https://youtube.com/"  target="_blank" class="social-icon-link bi-youtube"></a>
                         </li>
 
                         <li class="social-icon-item">
-                            <a href="#" class="social-icon-link bi-whatsapp"></a>
+                            <a href="https://wa.me/+6285892376114" target="_blank" class="social-icon-link bi-whatsapp"></a>
                         </li>
                     </ul>
                 </div>
@@ -77,7 +98,7 @@ https://templatemo.com/tm-581-kind-heart-charity
 
     <nav class="navbar navbar-expand-lg bg-light shadow-lg">
         <div class="container">
-            <a class="navbar-brand" href="index.html">
+            <a class="navbar-brand" href="/">
                 <img src="{{ asset('assets/landing/images/icon.png') }}" class="logo img-fluid p-3"
                     alt="Kind Heart Charity">
                 <span>
@@ -102,7 +123,7 @@ https://templatemo.com/tm-581-kind-heart-charity
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link click-scroll" href="#section_4">Mobile App</a>
+                        <a class="nav-link click-scroll" href="#section_4">Aplikasi Mobile</a>
                     </li>
 
                     <li class="nav-item">
@@ -111,33 +132,44 @@ https://templatemo.com/tm-581-kind-heart-charity
 
                     @if (Route::has('login'))
                         @auth
-                            <li class="nav-item">
-                                <div class="dropdown mt-2 pt-1">
-                                    <button class="btn btn-primary-outline dropdown-toggle" type="button"
-                                        id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
-                                        aria-expanded="false">
-                                        Halo, <b>{{ auth()->user()->nama }}</b>!
-                                    </button>
-                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                        <a class="dropdown-item" href="{{ route('dashboard') }}">Dashboard</a>
-                                        <a class="dropdown-item" href="{{ route('logout') }}">Logout</a>
-                                    </div>
-                                </div>
-                            </li>
+                            <div class="nav-items-visible2">
+                                <li class="nav-item">
+                                    <a class="nav-link click-scroll" href="{{ route('dashboard') }}"><b>Dashboard</b></a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link click-scroll" href="{{ route('logout') }}">Logout</a>
+                                </li>
+                            </div>
+                            <div class="nav-item-visible">
+                                <li class="nav-item">
+                                    <a class="nav-link click-scroll" href="{{ route('dashboard') }}"><b>Dashboard</b></a>
+                                </li>
+                            </div>
+                            <div class="nav-item-visible">
+                                <li class="nav-item">
+                                    <a class="nav-link click-scroll" href="{{ route('logout') }}">Logout</a>
+                                </li>
+                            </div>
                         @else
-                            <li class="nav-item">
-                                <div class="dropdown mt-2 pt-1">
-                                    <button class="btn btn-primary-outline dropdown-toggle" type="button"
-                                        id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
-                                        aria-expanded="false">
-                                        <b>Masuk</b>
-                                    </button>
-                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                        <a class="dropdown-item" href="{{ route('login') }}">Login</a>
-                                        <a class="dropdown-item" href="{{ route('register') }}">Registrasi</a>
-                                    </div>
-                                </div>
-                            </li>
+                            <div class="nav-items-visible2">
+                                <li class="nav-item">
+                                    <a class="nav-link click-scroll" href="{{ route('login') }}"><b>Login</b></a>
+                                </li>
+                                {{-- <li class="nav-item">
+                                    <a class="nav-link click-scroll" href="{{ route('register') }}"><b>Registrasi</b></a>
+                                </li> --}}
+                            </div>
+                            <div class="nav-item-visible">
+                                <li class="nav-item">
+                                    <a class="nav-link click-scroll" href="{{ route('login') }}"><b>Login</b></a>
+                                </li>
+                            </div>
+                            <div class="nav-item-visible">
+                                {{-- <li class="nav-item">
+                                    <a class="nav-link click-scroll" href="{{ route('register') }}"><b>Registrasi</b></a>
+                                </li> --}}
+                            </div>
+
                         @endauth
                     @endif
                 </ul>
@@ -155,36 +187,36 @@ https://templatemo.com/tm-581-kind-heart-charity
                         <div id="hero-slide" class="carousel carousel-fade slide" data-bs-ride="carousel">
                             <div class="carousel-inner">
                                 <div class="carousel-item active">
-                                    <img src="{{ asset('assets/landing/images/slide') }}/mudah.jpg"
+                                    <img src="{{ asset('assets/landing/images/slide') }}/01.jpeg"
                                         class="carousel-image" alt="...">
 
-                                    <div class="carousel-caption d-flex flex-column justify-content-end">
-                                        <h1>Mudah</h1>
+                                    {{-- <div class="carousel-caption d-flex flex-column justify-content-end">
+                                        <h1>Mudah1</h1>
 
                                         <p>Scan, Input, Upload semudah itu</p>
-                                    </div>
+                                    </div> --}}
                                 </div>
 
                                 <div class="carousel-item">
-                                    <img src="{{ asset('assets/landing/images/slide') }}/cepat.jpg"
+                                    <img src="{{ asset('assets/landing/images/slide') }}/03.jpeg"
                                         class="carousel-image" alt="...">
 
-                                    <div class="carousel-caption d-flex flex-column justify-content-end">
+                                    {{-- <div class="carousel-caption d-flex flex-column justify-content-end">
                                         <h1>Cepat</h1>
 
                                         <p>Langsung beres ditangan petugas pendata</p>
-                                    </div>
+                                    </div> --}}
                                 </div>
 
                                 <div class="carousel-item">
-                                    <img src="{{ asset('assets/landing/images/slide') }}/modern.jpg"
+                                    <img src="{{ asset('assets/landing/images/slide') }}/04.jpeg"
                                         class="carousel-image" alt="...">
 
-                                    <div class="carousel-caption d-flex flex-column justify-content-end">
+                                    {{-- <div class="carousel-caption d-flex flex-column justify-content-end">
                                         <h1>Modern</h1>
 
                                         <p>Pendataan air menggunakan Mobile App</p>
-                                    </div>
+                                    </div> --}}
                                 </div>
                             </div>
 
@@ -257,7 +289,7 @@ https://templatemo.com/tm-581-kind-heart-charity
                 <div class="row">
 
                     <div class="col-lg-6 col-12 mb-5 mb-lg-0">
-                        <img src="{{ asset('assets/landing/images') }}/image1.jpg"
+                        <img src="{{ asset('assets/landing/images') }}/image3.jpeg"
                             class="custom-text-box-image img-fluid" alt="">
                     </div>
 
@@ -267,8 +299,8 @@ https://templatemo.com/tm-581-kind-heart-charity
 
                             <h5 class="mb-3">Sistem Pengelolaan Air Minum (SPAM)</h5>
 
-                            <p class="mb-0">Unit yang menjamin ketersediaan pelayanan air minum yang memenuhi standar
-                                kualitas air minum bagi masyarakat Desa Kayuputih</p>
+                            <p class="mb-0">Merupakan Unit BUMDes Desa Kayuputih yang melakukan pengelolaan dan pelayanan air minum sudah berdiri sejak 2013 sampai sekarang. Unit yang menjamin ketersediaan pelayanan air minum yang memenuhi standar
+                                kualitas air minum bagi masyarakat yang dikelola secara mandiri oleh Desa dan untuk Desa Kayuputih.</p>
                         </div>
 
                         <div class="row">
@@ -297,7 +329,7 @@ https://templatemo.com/tm-581-kind-heart-charity
                                 <div class="custom-text-box d-flex flex-wrap d-lg-block mb-lg-0">
                                     <div class="counter-thumb">
                                         <div class="d-flex">
-                                            <span class="counter-number" data-from="1" data-to="846"
+                                            <span class="counter-number" data-from="1" data-to="{{$users}}"
                                                 data-speed="1000"></span>
                                             <span class="counter-number-text"></span>
                                         </div>
@@ -307,7 +339,7 @@ https://templatemo.com/tm-581-kind-heart-charity
 
                                     <div class="counter-thumb mt-4">
                                         <div class="d-flex">
-                                            <span class="counter-number" data-from="1" data-to="10"
+                                            <span class="counter-number" data-from="1" data-to="{{$tahunBerdiri}}"
                                                 data-speed="1000"></span>
                                             <span class="counter-number-text"></span>
                                         </div>
@@ -329,13 +361,16 @@ https://templatemo.com/tm-581-kind-heart-charity
                 <div class="row">
 
                     <div class="col-lg-12 col-12 text-center mb-4">
-                        <h2>Mobile App</h2>
+                        <h2>Aplikasi Mobile</h2>
                     </div>
 
                     <div class="col-lg-6 col-md-6 col-12 mb-4 mb-lg-0">
                         <div class="custom-block-wrap">
-                            <img src="{{ asset('assets/landing/images') }}/causes/petugas.jpg"
+                            <a href="https://drive.google.com/file/d/1Wm7NuxvDAPyx4Pu9brBjYU-7RemTGJqD/view?usp=drive_link">
+                                <img src="{{ asset('assets/landing/images') }}/causes/petugas3.jpg"
                                 class="custom-block-image img-fluid" alt="">
+                            </a>
+                            
 
                             <div class="custom-block">
                                 <div class="custom-block-body">
@@ -349,18 +384,20 @@ https://templatemo.com/tm-581-kind-heart-charity
 
                     <div class="col-lg-6 col-md-6 col-12 mb-4 mb-lg-0">
                         <div class="custom-block-wrap">
-                            <img src="{{ asset('assets/landing/images') }}/causes/pengguna.jpg"
-                                class="custom-block-image img-fluid" alt="">
-
+                            <a href="https://drive.google.com/file/d/1kQ1BZyy3FuN7dny1g2lRp7vlpQCnu3c3/view?usp=drive_link">
+                                <img src="{{ asset('assets/landing/images') }}/causes/pengguna3.jpg"
+                                    class="custom-block-image img-fluid" alt="">
+                            </a>
+                    
                             <div class="custom-block">
                                 <div class="custom-block-body">
                                     <h5 class="mb-3">Pelanggan</h5>
-                                    <p>Melihat jumlah tagihan dan melihat riwayat penggunaan air dapat dengan mudah
-                                        dilihat di Mobile App SISPAM-DES</p>
+                                    <p>Melihat jumlah tagihan dan melihat riwayat penggunaan air dapat dengan mudah dilihat di Mobile App SISPAM-DES</p>
                                 </div>
                             </div>
                         </div>
                     </div>
+                    
 
                 </div>
             </div>
@@ -377,12 +414,12 @@ https://templatemo.com/tm-581-kind-heart-charity
                             <h2>Informasi Pengelola</h2>
 
                             <div class="contact-image-wrap d-flex flex-wrap">
-                                <img src="https://i.pravatar.cc/150?img=3" class="img-fluid avatar-image"
+                                <img src="{{ asset('assets/landing/images') }}/slide/03.jpeg" class="img-fluid avatar-image"
                                     alt="">
 
                                 <div class="d-flex flex-column justify-content-center ms-3">
-                                    <p class="mb-0">Sistem Pengelola Air Minum</p>
-                                    <p class="mb-0"><strong>Badan Usaha Milik Desa Kayuputih</strong></p>
+                                    <p class="mb-0">Sistem Pengelola Air Minum BUMDes</p>
+                                    <p class="mb-0"><strong>Manik Amerta Sari Desa Kayuputih</strong></p>
                                 </div>
                             </div>
 
@@ -397,8 +434,8 @@ https://templatemo.com/tm-581-kind-heart-charity
                                 <p class="d-flex mb-2">
                                     <i class="bi-telephone me-2"></i>
 
-                                    <a href="tel: 305-240-9671">
-                                        305-240-9671
+                                    <a href="tel: +6285892376114">
+                                        +62 858-9237-6114
                                     </a>
                                 </p>
 
@@ -406,11 +443,11 @@ https://templatemo.com/tm-581-kind-heart-charity
                                     <i class="bi-envelope me-2"></i>
 
                                     <a href="mailto:desakayuputih17@gmail.com">
-                                        sesakayuputih17@gmail.com
+                                        desakayuputih17@gmail.com
                                     </a>
                                 </p>
 
-                                <a href="#" class="custom-btn btn mt-3">Google Map</a>
+                                <a href="https://maps.app.goo.gl/G8T3zEvR1cXt24vB7" target="_blank" class="custom-btn btn mt-3">Google Map</a>
                             </div>
                         </div>
                     </div>
@@ -419,9 +456,7 @@ https://templatemo.com/tm-581-kind-heart-charity
                         <div class="news-block-body">
 
                             <blockquote>
-                                Di dalam tetesan air terdapat kehidupan yang tak ternilai harganya. Jadikanlah setiap
-                                tetesnya sebagai pengingat betapa berharganya sumber kehidupan ini, dan jaga air dengan
-                                penuh kasih sayang.
+                                Air adalah anugerah alam yang tak ternilai harganya, jadi simpanlah untuk masa depan.
                             </blockquote>
                         </div>
                     </div>
@@ -443,8 +478,8 @@ https://templatemo.com/tm-581-kind-heart-charity
                     <h5 class="site-footer-title mb-3">Pintasan</h5>
 
                     <ul class="footer-menu">
-                        <li class="footer-menu-item"><i class="bi-journal-text me-2 text-white"></i><a
-                                href="{{ route('register') }}" class="footer-menu-link">Registrasi</a></li>
+                        {{-- <li class="footer-menu-item"><i class="bi-journal-text me-2 text-white"></i><a
+                                href="{{ route('register') }}" class="footer-menu-link">Registrasi</a></li> --}}
 
                         <li class="footer-menu-item"><i class="bi-box-arrow-in-right me-2 text-white"></i><a
                                 href="{{ route('login') }}" class="footer-menu-link">Login</a></li>
@@ -457,8 +492,8 @@ https://templatemo.com/tm-581-kind-heart-charity
                     <p class="text-white d-flex mb-2">
                         <i class="bi-telephone me-2"></i>
 
-                        <a href="tel: 305-240-9671" class="site-footer-link">
-                            305-240-9671
+                        <a href="tel: +6285892376114" class="site-footer-link">
+                            +62 858-9237-6114
                         </a>
                     </p>
 
@@ -466,7 +501,7 @@ https://templatemo.com/tm-581-kind-heart-charity
                         <i class="bi-envelope me-2"></i>
 
                         <a href="mailto:desakayuputih17@gmail.com" class="site-footer-link">
-                            Desakayuputih17@gmail.com
+                            desakayuputih17@gmail.com
                         </a>
                     </p>
 
@@ -475,7 +510,7 @@ https://templatemo.com/tm-581-kind-heart-charity
                         Desa Kayuputih, Kecamatan Banjar, Kabupaten Buleleng, Bali 81152
                     </p>
 
-                    <a href="#" class="custom-btn btn mt-3">Google Map</a>
+                    <a href="https://maps.app.goo.gl/G8T3zEvR1cXt24vB7" target="_blank" class="custom-btn btn mt-3">Google Map</a>
                 </div>
             </div>
         </div>
@@ -495,11 +530,7 @@ https://templatemo.com/tm-581-kind-heart-charity
                     <div class="col-lg-6 col-md-5 col-12 d-flex justify-content-center align-items-center mx-auto">
                         <ul class="social-icon">
                             <li class="social-icon-item">
-                                <a href="#" class="social-icon-link bi-twitter"></a>
-                            </li>
-
-                            <li class="social-icon-item">
-                                <a href="#" class="social-icon-link bi-facebook"></a>
+                                <a href="https://web.facebook.com/pemerintahan.desakayuputih.14" target="_blank" class="social-icon-link bi-facebook"></a>
                             </li>
 
                             <li class="social-icon-item">
@@ -507,11 +538,11 @@ https://templatemo.com/tm-581-kind-heart-charity
                             </li>
 
                             <li class="social-icon-item">
-                                <a href="#" class="social-icon-link bi-linkedin"></a>
+                                <a href="https://youtube.com/" target="_blank" class="social-icon-link bi-youtube"></a>
                             </li>
 
                             <li class="social-icon-item">
-                                <a href="https://youtube.com/templatemo" class="social-icon-link bi-youtube"></a>
+                                <a href="https://wa.me/+6285892376114" target="_blank" class="social-icon-link bi-whatsapp"></a>
                             </li>
                         </ul>
                     </div>

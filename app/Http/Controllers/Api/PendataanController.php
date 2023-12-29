@@ -12,16 +12,67 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Auth;
 
 class PendataanController extends Controller
 {
     public function index()
     {
-        //get posts
-        $posts = Pendataan::latest()->paginate(5);
+        //get pendataan
+        $pendataans = Pendataan::orderBy('created_at', 'ASC')->get();
 
-        //return collection of posts as a resource
-        return new PendataanResource(true, 'List Data Posts', $posts);
+        // Initialize an empty array to store the transformed data
+        $responseData = [];
+
+        // Loop through each pendataan and create a JSON structure for it
+        foreach ($pendataans as $pendataan) {
+            $pendataanData = [
+                "id" => $pendataan->id,
+                "id_petugas" => $pendataan->id_petugas,
+                "id_pelanggan" => $pendataan->id_pelanggan,
+                "nilai_meteran" => $pendataan->nilai_meteran,
+                "foto_meteran" => $pendataan->foto_meteran,
+                "total_penggunaan" => $pendataan->total_penggunaan,
+                "total_harga" => $pendataan->total_harga,
+                "status_pembayaran" => $pendataan->status_pembayaran,
+                "created_at" => $pendataan->created_at,
+                "updated_at" => $pendataan->updated_at,
+            ];
+
+            // Add the pendataan data to the response array
+            $responseData[] = $pendataanData;
+        }
+
+        // Create the final response array
+        $response = [
+            "success" => true,
+            "message" => "List Data Pendataan",
+            "data" => $responseData,
+        ];
+
+        // Return the response as JSON
+        return response()->json($response);
+    }
+
+    public function getPendataanById()
+    {
+        //get pendataan
+        $user = Auth::user();
+        $pendataans = Pendataan::orderBy('created_at', 'ASC')
+            ->where('id_pelanggan', $user->id)
+            ->get();
+
+        //return collection of pendataans as a resource
+        return new PendataanResource(true, 'List Data Pendataan By ID', $pendataans);
+    }
+
+    public function getHarga()
+    {
+        //get pendataan
+        $harga = Harga::get();
+
+        //return collection of pendataans as a resource
+        return new PendataanResource(true, 'List Harga', $harga);
     }
 
     public function store(Request $request)
@@ -34,34 +85,49 @@ class PendataanController extends Controller
             'nilai_meteran'   => 'required',
         ]);
 
-        //hitung data bulan lalu
-        $dataLastmonth = Pendataan::whereMonth('created_at', '=', Carbon::now()->subMonth()->month)
-            ->where('id_pelanggan', $request->id_pelanggan)->count();
 
-        //hitung data bulan ini
-        $dataThismonth = Pendataan::whereMonth('created_at', '=', Carbon::now()->month)
-            ->where('id_pelanggan', $request->id_pelanggan)->count();
+        $currentMonth = Carbon::now()->month;
+        $currentYear = Carbon::now()->year;
+        $currentDate = Carbon::now()->startOfMonth();
+        $foundData = false;
+        $lastMonthData = null;
 
-        //get data bulan lalu
-        $lastMonth = Pendataan::whereMonth('created_at', '=', Carbon::now()->subMonth()->month)
-            ->where('id_pelanggan', $request->id_pelanggan)
-            ->first();
+        // Start from the previous month
+        $date = $currentDate->subMonth();
 
-        //check data bulan lalu
-        if ($dataLastmonth < 1) {
-            return response()->json(['error' => 'Data bulan lalu tidak ditemukan.'], 422);
+        while (!$foundData && $date->year >= $currentYear) {
+            $dataLastmonthcheck = Pendataan::whereMonth('created_at', '=', $date->month)
+                ->whereYear('created_at', '=', $date->year)
+                ->where('id_pelanggan', $request->id_pelanggan)
+                ->first();
+
+            if ($dataLastmonthcheck) {
+                $foundData = true;
+            }
+
+            // Move to the previous month
+            $date->subMonth();
         }
 
-        $meteranLastmonth = $lastMonth->nilai_meteran;
+        if (!$foundData) {
+            $dataLastmonth = 0;
+        } else {
+            $dataLastmonth = $dataLastmonthcheck->nilai_meteran;
+        }
+
+        $dataThismonth = Pendataan::whereMonth('created_at', '=', Carbon::now()->month)
+            ->where('id_pelanggan', $request->id_pelanggan)->first();
+
+        $meteranLastmonth = $dataLastmonth;
         $meteranThismonth = $request->nilai_meteran;
 
         //check data availability
-        if ($dataLastmonth > 1) {
-            return response()->json(['error' => 'Data bulan lalu lebih dari 1.'], 422);
-        } elseif ($dataThismonth > 0) {
-            return response()->json(['error' => 'Pendataan Bulan ini sudah dilakukan.'], 422);
-        } elseif ($meteranThismonth < $meteranLastmonth) {
-            return response()->json(['error' => 'Data bulan ini lebih kecil dari bulan lalu.'], 422);
+        // if ($dataThismonth > 0) {
+        //     return response()->json(['error' => 'Data bulan ini sudah dilakukan.'], 422);
+        // } else
+        if ($meteranThismonth < $meteranLastmonth) {
+            // return response()->json(['error' => 'Data bulan ini lebih kecil dari bulan lalu.'], 423);
+            return response()->json(['message' => 'Data skipped because current month meter reading is less than previous month.'], 200);
         }
 
         //get level harga
@@ -93,25 +159,43 @@ class PendataanController extends Controller
         $image = $request->file('foto_meteran');
         $image->storeAs('public/foto/pendataan/', $imageName);
 
-        //create data
-        $pendataan = Pendataan::create([
-            'id_petugas'     => $request->id_petugas,
-            'id_pelanggan'     => $request->id_pelanggan,
-            'nilai_meteran'   => $request->nilai_meteran,
-            'foto_meteran'   => $imageName,
-            'total_penggunaan'   => $meteran,
-            'total_harga'   => $total_harga,
-            'status_pembayaran'   => 'Tertunggak',
-        ]);
+        if ($dataThismonth) {
+            // If data exists, update it instead of creating a new entry
+            $dataThismonth->update([
+                'nilai_meteran' => $request->nilai_meteran,
+                'foto_meteran' => $imageName,
+                'total_penggunaan' => $meteran,
+                'total_harga' => $total_harga,
+                'status_pembayaran' => 'Tertunggak',
+            ]);
 
-        //return response
-        return new PendataanResource(true, 'Data Post Berhasil Ditambahkan!', $pendataan);
+            $dataThismonth = $dataThismonth->fresh();
+
+            // Return response with updated data
+            return new PendataanResource(true, 'Data berhasil diperbarui.', $dataThismonth);
+        } else {
+
+
+            // create data
+            $pendataan = Pendataan::create([
+                'id_petugas' => $request->id_petugas,
+                'id_pelanggan' => $request->id_pelanggan,
+                'nilai_meteran' => $request->nilai_meteran,
+                'foto_meteran' => $imageName,
+                'total_penggunaan' => $meteran,
+                'total_harga' => $total_harga,
+                'status_pembayaran' => 'Tertunggak',
+            ]);
+
+            //return response
+            return new PendataanResource(true, 'Pendataan berhasil dibuat.', $pendataan);
+        }
     }
 
     public function show(Pendataan $pendataan)
     {
         //return single post as a resource
-        return new PendataanResource(true, 'Data Pendataan Ditemukan!', $pendataan);
+        return new PendataanResource(true, 'Pendataan Ditemukan.', $pendataan);
     }
 
     public function update(Request $request, Pendataan $pendataan)
@@ -129,7 +213,7 @@ class PendataanController extends Controller
             $lastMonth = DB::table('pendataans')->whereMonth('created_at', '=', Carbon::now()->subMonth()->month)
                 ->where('id_pelanggan', $request->id_pelanggan)
                 ->first();
-            
+
             //check data bulan lalu
             if ($lastMonth == null) {
                 return response()->json(['error' => 'Data bulan lalu tidak ditemukan.'], 422);
@@ -197,7 +281,26 @@ class PendataanController extends Controller
         }
 
         //return response
-        return new PendataanResource(true, 'Data Post Berhasil Diubah!', $pendataan);
+        return new PendataanResource(true, 'Pendataan berhasil diubah.', $pendataan);
+    }
+
+    public function status(Request $request)
+    {
+
+        $pendataan = DB::table('pendataans')->where('id', $request->id)->first();
+        $status = "";
+        //update data
+        if ($pendataan->status_pembayaran == 'Tertunggak') {
+            $status = "Lunas";
+        } else {
+            $status = "Tertunggak";
+        }
+
+        DB::table('pendataans')->where('id', $request->id)->update([
+            'status_pembayaran' => $status,
+        ]);
+
+        return new PendataanResource(true, 'Status pendataan berhasil diubah.', $pendataan);
     }
 
     public function destroy(Pendataan $pendataan)
@@ -208,6 +311,6 @@ class PendataanController extends Controller
         $pendataan->delete();
 
         //return response
-        return new PendataanResource(true, 'Data Post Berhasil Dihapus!', null);
+        return new PendataanResource(true, 'Pendataan berhasil dihapus.', null);
     }
 }

@@ -55,7 +55,7 @@ class PendataanController extends Controller
             $status = "Tertunggak";
         }
 
-        DB::table('pendataans')->where('id',$request->id)->update([
+        DB::table('pendataans')->where('id', $request->id)->update([
             'status_pembayaran' => $status,
         ]);
 
@@ -79,30 +79,43 @@ class PendataanController extends Controller
 
     public function store(Request $request)
     {
-        //check data from last month
-        $dataLastmonth = Pendataan::whereMonth('created_at', '=', Carbon::now()->subMonth()->month)
-            ->where('id_pelanggan', $request->id_pelanggan)->count();
+        $currentMonth = Carbon::now()->month;
+        $currentYear = Carbon::now()->year;
+        $currentDate = Carbon::now()->startOfMonth();
+        $foundData = false;
+        $lastMonthData = null;
+
+        // Start from the previous month
+        $date = $currentDate->subMonth();
+
+        while (!$foundData && $date->year >= $currentYear) {
+            $dataLastmonthcheck = Pendataan::whereMonth('created_at', '=', $date->month)
+                ->whereYear('created_at', '=', $date->year)
+                ->where('id_pelanggan', $request->id_pelanggan)
+                ->first();
+
+            if ($dataLastmonthcheck) {
+                $foundData = true;
+            }
+
+            // Move to the previous month
+            $date->subMonth();
+        }
+
+        if (!$foundData) {
+            $dataLastmonth = 0;
+        }else{
+            $dataLastmonth = $dataLastmonthcheck->nilai_meteran;
+        }
 
         $dataThismonth = Pendataan::whereMonth('created_at', '=', Carbon::now()->month)
             ->where('id_pelanggan', $request->id_pelanggan)->count();
 
-        //get last mont data
-        $lastMonth = Pendataan::whereMonth('created_at', '=', Carbon::now()->subMonth()->month)
-            ->where('id_pelanggan', $request->id_pelanggan)
-            ->first();
-
-        //check data availability
-        if ($dataLastmonth < 1) {
-            return redirect()->route('pendataans.create')->with('error', 'Data bulan lalu tidak ditemukan.');
-        }
-
-        $meteranLastmonth = $lastMonth->nilai_meteran;
+        $meteranLastmonth = $dataLastmonth;
         $meteranThismonth = $request->nilai_meteran;
 
         //check data availability
-        if ($dataLastmonth > 1) {
-            return redirect()->route('pendataans.create')->with('error', 'Data bulan lalu lebih dari 1.');
-        } elseif ($dataThismonth > 0) {
+        if ($dataThismonth > 0) {
             return redirect()->route('pendataans.create')->with('error', 'Pendataan Bulan ini sudah dilakukan.');
         } elseif ($meteranThismonth < $meteranLastmonth) {
             return redirect()->route('pendataans.create')->with('error', new HtmlString('Data bulan ini (<strong>' . $meteranThismonth . '</strong>) lebih kecil dari bulan lalu (<strong>' . $meteranLastmonth . '</strong>)'));
@@ -183,23 +196,36 @@ class PendataanController extends Controller
 
     public function update(Request $request, Pendataan $pendataan)
     {
-        //validate form
-        // $this->validate($request, [
-        //     'id_petugas'     => 'required',
-        //     'id_pelanggan'     => 'required',
-        //     'nilai_meteran'   => 'required',
-        //     'foto_meteran'   => 'required',
-        //     'total_harga'   => 'required',
-        //     'status_pembayaran'   => 'required',
-        // ]);
+        $currentYear = Carbon::now()->year;
+        $currentDate = Carbon::now()->startOfMonth();
+        $foundData = false;
 
-        if ($request->nilai_meteran != $pendataan->nilai_meteran) {
-            //get last mont data
-            $lastMonth = DB::table('pendataans')->whereMonth('created_at', '=', Carbon::now()->subMonth()->month)
+        // Start from the previous month
+        $date = $currentDate->subMonth();
+
+        while (!$foundData && $date->year >= $currentYear) {
+            $dataLastmonthcheck = Pendataan::whereMonth('created_at', '=', $date->month)
+                ->whereYear('created_at', '=', $date->year)
                 ->where('id_pelanggan', $request->id_pelanggan)
                 ->first();
 
-            $meteranLastmonth = $lastMonth->nilai_meteran;
+            if ($dataLastmonthcheck) {
+                $foundData = true;
+            }
+
+            // Move to the previous month
+            $date->subMonth();
+        }
+
+        if (!$foundData) {
+            $dataLastmonth = 0;
+        }else{
+            $dataLastmonth = $dataLastmonthcheck->nilai_meteran;
+        }
+
+        if ($request->nilai_meteran != $pendataan->nilai_meteran) {
+
+            $meteranLastmonth = $dataLastmonth;
             $meteranThismonth = $request->nilai_meteran;
 
             $meteran = $meteranThismonth - $meteranLastmonth;

@@ -42,8 +42,7 @@
 
                 <div class="row mb-3">
                     <div class="text-end pt-1 col-12">
-                        <a href="{{ url()->previous() }}" type="button"
-                            class="btn btn-primary btn-animated pull-right">
+                        <a href="{{ url()->previous() }}" type="button" class="btn btn-primary btn-animated pull-right">
                             <span><span>Kembali</span><span class="icon"><i class="fa fa-undo"></i></span></span>
                         </a>
                     </div>
@@ -54,13 +53,15 @@
                             <h6>Form tambah data pengguna</h6>
                         </div>
                         <div class="card-body">
-                            <form class="py-2 needs-validation" action="{{ route('pendataans.store') }}" method="post" enctype="multipart/form-data" novalidate>
+                            <form class="py-2 needs-validation" action="{{ route('pendataans.store') }}" method="post"
+                                enctype="multipart/form-data" novalidate>
                                 @csrf
                                 <div class="container pb-3">
                                     <div class="row">
                                         <div class="mb-3 col-3">
                                             <label for="Pelanggan" class="form-label">Pelanggan</label>
-                                            <select class="form-select" name="id_pelanggan" id="select_pelanggan" required>
+                                            <select class="form-select" name="id_pelanggan" id="select_pelanggan"
+                                                required>
                                                 <option value="">--Pilih Pelanggan--</option>
                                                 @foreach ($pelanggan as $plg)
                                                     <option value="{{ $plg->id }}">
@@ -83,7 +84,8 @@
                                         </div>
                                         <div class="mb-3">
                                             <label for="foto" class="form-label">Foto Meteran </label>
-                                            <input class="form-control" type="file" id="foto" name="foto" required>
+                                            <input class="form-control" type="file" id="foto" name="foto"
+                                                required>
                                             <div class="invalid-feedback">
                                                 Foto meteran belum dimasukan.
                                             </div>

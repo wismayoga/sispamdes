@@ -13,6 +13,7 @@ class Pendataan extends Model
         'id_petugas',
         'id_pelanggan',
         'nilai_meteran',
+        'nilai_meteran_bulan_lalu',
         'foto_meteran',
         'total_penggunaan',
         'total_harga',

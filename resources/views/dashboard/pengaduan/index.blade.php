@@ -13,7 +13,7 @@
                             <h1 class="pg-title">Kritik dan Saran</h1>
                             <p>Dashboard / Kritik dan Saran</p>
                         </div>
-                        <div class="pg-header-action-wrap">
+                        {{-- <div class="pg-header-action-wrap">
                             <div class="input-group w-300p">
                                 <span class="input-affix-wrapper">
                                     <span class="input-prefix"><span class="feather-icon">
@@ -22,7 +22,7 @@
                                         value="Aug 18,2020 - Aug 19, 2020">
                                 </span>
                             </div>
-                        </div>
+                        </div> --}}
                     </div>
                 </div>
             </div>
@@ -43,10 +43,11 @@
                             <tr>
                                 {{-- <th class="mnw-50p">#</th> --}}
                                 <th class="mnw-50p">#</th>
-                                <th class="mnw-50p">ID</th>
+                                {{-- <th class="mnw-50p">Id Pelanggan</th> --}}
                                 <th class="mnw-100p">Nama</th>
+                                <th class="mnw-100p">Tanggal</th>
                                 <th class="mnw-50p">Nomor HP</th>
-                                <th class="mnw-200p">Pengaduan</th>
+                                <th class="mnw-200p">Kritik Saran</th>
                                 <th class="mnw-50p  text-center">Status</th>
                                 <th class=""></th>
                             </tr>
@@ -55,8 +56,9 @@
                             @foreach ($pengaduans as $key => $pengaduan)
                                 <tr>
                                     <td class="text-truncate mnw-50p">{{ $key + 1 }}</td>
-                                    <td class="text-truncate mnw-50p">{{ $pengaduan->id }}</span></td>
+                                    {{-- <td class="text-truncate mnw-50p">{{ $pengaduan->id_pelanggan }}</span></td> --}}
                                     <td class="text-truncate">{{ $pengaduan->nama }}</span></td>
+                                    <td class="text-truncate">{{ \Carbon\Carbon::parse($pengaduan->created_at)->translatedFormat('l, d M Y', 'id') }}</td>
                                     <td class="text-truncate">{{ $pengaduan->nomor_hp }}</span></td>
                                     <td class="text-truncate">{{ $pengaduan->pengaduan }}</span></td>
                                     <td class="text-truncate text-center">

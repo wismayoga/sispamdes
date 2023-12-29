@@ -403,7 +403,7 @@ strong {
   color: var(--primary-color);
 }
 
-.dropdown-menu {
+/* .dropdown-menu {
   background: var(--white-color);
   box-shadow: 0 1rem 3rem rgba(0,0,0,.175);
   border: 0;
@@ -453,12 +453,12 @@ strong {
   border: 0;
 }
 
-@media screen and (min-width: 992px) {
+@media screen and (min-width: 991px) {
   .dropdown:hover .dropdown-menu {
     display: block;
     margin-top: 0;
   }
-}
+} */
 
 .navbar-toggler {
   border: 0;

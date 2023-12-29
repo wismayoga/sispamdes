@@ -66,7 +66,7 @@ class ProfileController extends Controller
     }
 
     public function updatePassword(Request $request)
-{
+    {
         # Validation
         $request->validate([
             'old_password' => 'required',
@@ -75,11 +75,11 @@ class ProfileController extends Controller
 
 
         #Match The Old Password
-        if(!Hash::check($request->old_password, auth()->user()->password)){
+        if (!Hash::check($request->old_password, auth()->user()->password)) {
             return back()->with("error", "Password lama tidak sesuai.");
         }
 
-        if($request->new_password != $request->new_password_confirmation){
+        if ($request->new_password != $request->new_password_confirmation) {
             return back()->with("error", "Pengulangan password baru tidak sesuai.");
         }
 
@@ -90,6 +90,5 @@ class ProfileController extends Controller
         ]);
 
         return redirect('profile')->with("success", "Password berhasil diubah.");
-}
-
+    }
 }

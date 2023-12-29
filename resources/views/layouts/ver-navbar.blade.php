@@ -1,8 +1,12 @@
 <style>
     .navbar-brands {
-        color: var(--primary-color);
+        color: #146C94;
         font-size: var(--h6-font-size);
         font-weight: var(--font-weight-bold);
+    }
+
+    .navbar-brands:hover {
+        color: #AFD3E2;
     }
 
     .navbar-brands span {
@@ -16,11 +20,16 @@
     }
 
     .navbar-brands small {
-        color: var(--secondary-color);
+        color: #146C94;
         display: block;
         font-size: 10px;
         line-height: normal;
         text-transform: uppercase;
+    }
+
+    .navbar-nav .nav-item.active .nav-link {
+        color: #AFD3E2;
+        /* Replace with the desired color */
     }
 </style>
 
@@ -35,7 +44,8 @@
                 <h5>SISPAM-DES</h5>
             </a> --}}
             <a class="navbar-brands" href="/">
-                <img src="{{ asset('assets/landing/images/icon.png') }}" class="logos img-fluid me-2" alt="Kind Heart Charity">
+                <img src="{{ asset('assets/landing/images/icon.png') }}" class="logos img-fluid me-2"
+                    alt="Kind Heart Charity">
                 <span>
                     <b>SISPAM-DES</b>
                     <small>Sistem Pendataan SPAM</small>

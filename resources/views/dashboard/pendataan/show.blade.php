@@ -17,11 +17,13 @@
                     @if($pendataan->foto_meteran == '')
                     <span>Dokumentasi foto tidak tersedia</span>
                     @else
-                    <img src="{{ asset('storage/foto/pendataan/' . $pendataan->foto_meteran) }}" class="img-fluid rounded mx-auto d-block" alt="img">
+                    <img src="{{ asset('storage/foto/pendataan/' . $pendataan->foto_meteran) }}" class="img-fluid rounded mx-auto d-block" alt="img" height="100">
                     @endif
                 </div>
                 <div class="modal-footer">
-                    <span>{{$pendataan->created_at}}</span>
+                    <span>
+                        {{ \Carbon\Carbon::parse($pendataan->created_at)->translatedFormat('l, d M Y', 'id') }}
+                    </span>
                 </div>
             </div>
         </div>
@@ -67,6 +69,11 @@
                                                 <td class="text-truncate"><b>Nama Pelanggan </b></td>
                                                 <td class="text-truncate">:</td>
                                                 <td class="text-truncate">{{ $pendataan->nama_pelanggan }}</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="text-truncate"><b>Tanggal </b></td>
+                                                <td class="text-truncate">:</td>
+                                                <td class="text-truncate">{{ \Carbon\Carbon::parse($pendataan->created_at)->translatedFormat('l, d M Y', 'id') }}</td>
                                             </tr>
                                             <tr>
                                                 <td class="text-truncate"><b>Nama Petugas </b></td>

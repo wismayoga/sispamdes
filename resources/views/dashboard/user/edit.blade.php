@@ -73,9 +73,10 @@
                                                 Email belum dimasukan.
                                             </div>
                                         </div>
+                                        
                                         <div class="mb-3">
                                             <label for="nomor_hp" class="form-label">Nomor HP</label>
-                                            <input type="number" class="form-control" id="nomor_hp"
+                                            <input type="text" class="form-control" id="nomor_hp"
                                                 placeholder="Masukan nomor hp" value="{{ old('user', $user->nomor_hp) }}"
                                                 name="nomor_hp" required>
                                             <div class="invalid-feedback">
