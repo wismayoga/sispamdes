@@ -27,23 +27,34 @@ Contact: contact@hencework.com
             font-size: var(--h6-font-size);
             font-weight: var(--font-weight-bold);
         }
-    
+
         .navbar-brands span {
             display: inline-block;
             vertical-align: middle;
         }
-    
+
         .logos {
             width: 40px;
             height: auto;
         }
-    
+
         .navbar-brands small {
             color: var(--secondary-color);
             display: block;
             font-size: 10px;
             line-height: normal;
             text-transform: uppercase;
+        }
+
+        .btn-primary {
+            background-color: #19A7CE;
+            color: #fff;
+            /* Set the text color for better contrast */
+        }
+
+        .button:hover {
+            background-color: #146C94;
+            /* transition: 0.7s; */
         }
     </style>
 </head>
@@ -61,7 +72,8 @@ Contact: contact@hencework.com
                         <div
                             class="col-xl-5 col-lg-6 col-md-5 d-md-block d-none bg-dark-20 bg-opacity-50 position-relative">
                             <img class="bg-img" src="{{ asset('assets/img') }}/registerBg.jpg" alt="bg-img">
-                            <p class="p-xs text-white credit-text opacity-55">Created with <i class="bi-heart me-1"></i> by <a target="blank" href="https://www.instagram.com/pergihari/">@pergihari</a> 2023
+                            <p class="p-xs text-white credit-text opacity-55">Created with <i class="bi-heart me-1"></i>
+                                by <a target="blank" href="https://www.instagram.com/pergihari/">@pergihari</a> 2023
                             </p>
                         </div>
                         <div class="col-xl-7 col-lg-6 col-md-7 col-sm-10 position-relative mx-auto">
@@ -69,15 +81,16 @@ Contact: contact@hencework.com
                                 <div class="text-center mb-7">
                                     <div class="nav-start-wrap">
                                         <a class="navbar-brands" href="/">
-                                            <img src="{{ asset('assets/landing/images/icon.png') }}" class="logos img-fluid me-2" alt="Kind Heart Charity">
+                                            <img src="{{ asset('assets/landing/images/icon.png') }}"
+                                                class="logos img-fluid me-2" alt="Kind Heart Charity">
                                             <span>
-                                                <b>SISPAM-DES</b>
-                                                <small>Sistem Pendataan SPAM</small>
+                                                <b style="color: #29313E">SISPAM-DES</b>
+                                                <small style="color: #728196">Sistem Pendataan SPAM</small>
                                             </span>
                                         </a>
                                     </div>
                                 </div>
-                                
+
                                 <form class="w-100" action="{{ route('register.action') }}" method="POST">
                                     @csrf
                                     <div class="row">
@@ -134,7 +147,9 @@ Contact: contact@hencework.com
                                                     </div>
                                                 </div>
                                             </div>
-                                            <button class="btn btn-primary btn-rounded btn-uppercase btn-block mt-3">Buat Akun</button>
+                                            <button
+                                                class="btn btn-primary btn-rounded btn-uppercase btn-block mt-3">Buat
+                                                Akun</button>
                                         </div>
                                     </div>
                                 </form>
@@ -144,7 +159,8 @@ Contact: contact@hencework.com
                                 <footer class="container-xxl footer">
                                     <div class="row">
                                         <div class="col-xl-8 text-center">
-                                            <p class="footer-text pb-0"><span class="copy-text">SISPAM-DES © 2023</span> 
+                                            <p class="footer-text pb-0"><span class="copy-text">SISPAM-DES ©
+                                                    2023</span>
                                             </p>
                                         </div>
                                     </div>

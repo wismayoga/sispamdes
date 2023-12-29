@@ -24,22 +24,22 @@
                 <div class="row">
                     <div class="row mb-3">
                         <div class="text-end pt-1 col-12">
-                            <form class="form-inline" action="{{ url('/qrcode', [$user->id]) }}" method="GET">
-                                @csrf
-                                <button class="btn btn-light btn-animated pull-right me-2" type="submit">
-                                    Cetak QR <i class="fa fa-qrcode"></i>
-                                </button>
-                                <a href="{{ route('pendataans.create', ['pengaduan' => $user->id]) }}" type="button"
-                                    class="btn btn-primary btn-animated pull-right me-2">
-                                    <span><span>Tambah Pendataan</span><span class="icon"><i
-                                                class="fa fa-plus"></i></span></span>
-                                </a>
-                                <a href="{{ url()->previous() }}" type="button"
-                                    class="btn btn-secondary btn-animated pull-right">
-                                    <span><span>Kembali</span><span class="icon"><i class="fa fa-undo"></i></span></span>
-                                </a>
-                            </form>
-                           
+
+                            <a href="{{ route('qrcodeindie', ['id' => $user->id]) }}" type="button"
+                                class="btn btn-light btn-animated pull-right">
+                                Cetak QR <i class="fa fa-qrcode"></i>
+                            </a>
+
+                            {{-- <a href="{{ route('pendataans.create', ['pengaduan' => $user->id]) }}" type="button"
+                                class="btn btn-primary btn-animated pull-right me-2">
+                                <span><span>Tambah Pendataan</span><span class="icon"><i
+                                            class="fa fa-plus"></i></span></span>
+                            </a> --}}
+                            <a href="{{ url()->previous() }}" type="button"
+                                class="btn btn-secondary btn-animated pull-right">
+                                <span><span>Kembali</span><span class="icon"><i class="fa fa-undo"></i></span></span>
+                            </a>
+
                         </div>
                     </div>
                     <div class="card card-border mb-5 h-100">
@@ -124,9 +124,8 @@
                                                 <th class="mnw-50p">Nilai Meteran(m<sup>3</sup>)</th>
                                                 <th class="mnw-50p">Penggunaan(m<sup>3</sup>)</th>
                                                 <th class="mnw-50p">Total Harga</th>
-                                                <th class="mnw-100p text-center">Tanggal</th>
-                                                <th class="mnw-50p text-center">Status</th>
-                                                <th class=" text-center"></th>
+                                                <th class="mnw-150p text-center">Tanggal</th>
+                                                <th class="mnw-100p text-center">Status</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -140,8 +139,7 @@
                                                     <td class="text-truncate">Rp.
                                                         {{ number_format($data->total_harga, 0, ',', '.') }},-</span></td>
                                                     {{-- <td class="text-truncate">{{ $data->created_at }}</td> --}}
-                                                    <td class="text-truncate">
-                                                        {{ date('d-m-Y', strtotime($data->created_at)) }}</td>
+                                                    <td class="text-truncate">{{ \Carbon\Carbon::parse($data->created_at)->translatedFormat('l, d M Y', 'id') }}</td>
                                                     <td class="text-truncate text-center">
                                                         @if ($data->status_pembayaran == 'Lunas')
                                                             <span class="badge badge-primary badge-pill">
@@ -153,47 +151,7 @@
                                                             </span>
                                                         @endif
                                                     </td>
-                                                    <td>
-                                                        <div class="d-flex align-items-center justify-content-end">
-                                                            <a class="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover"
-                                                                data-bs-toggle="tooltip" data-bs-placement="top"
-                                                                title="" data-bs-original-title="Detail"
-                                                                href="{{ url('/pendataans', $data->id) }}">
-                                                                <span class="icon">
-                                                                    <span class="feather-icon"><i data-feather="eye"></i>
-                                                                    </span>
-                                                                </span>
-                                                            </a>
-                                                            <a class="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover"
-                                                                data-bs-toggle="tooltip" data-bs-placement="top"
-                                                                title="" data-bs-original-title="Edit"
-                                                                type="button"
-                                                                href="pendataans/{{ $data->id }}/edit">
-                                                                <span class="icon">
-                                                                    <span class="feather-icon"><i
-                                                                            data-feather="edit-2"></i>
-                                                                    </span>
-                                                                </span>
-                                                            </a>
-                                                            <form onsubmit="return confirm('Apakah Anda Yakin ?');"
-                                                                action="{{ url('/pendataans', $data->id) }}"
-                                                                method="POST">
-                                                                @csrf
-                                                                @method('DELETE')
-                                                                <button
-                                                                    class="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover"
-                                                                    data-bs-toggle="tooltip" data-bs-placement="top"
-                                                                    title="" data-bs-original-title="Hapus"
-                                                                    type="submit">
-                                                                    <span class="icon">
-                                                                        <span class="feather-icon"><i
-                                                                                data-feather="trash-2"></i>
-                                                                        </span>
-                                                                    </span>
-                                                                </button>
-                                                            </form>
-                                                        </div>
-                                                    </td>
+                                                    
                                                 </tr>
                                             @endforeach ($harga as $harga)
                                         </tbody>

@@ -11,7 +11,7 @@
                 <div class="container-xxl">
                     <div class="profile-wrap">
                         <div class="profile-img-wrap">
-                            <img class="img-fluid rounded-5" src="https://source.unsplash.com/featured/1920x400" alt="Image Description">
+                            <img class="img-fluid rounded-5" src="{{ asset('assets/img/bgbg.jpeg') }}" alt="Image Description">
                         </div>
 
                         <div class="profile-intro">

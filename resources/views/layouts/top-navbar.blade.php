@@ -6,7 +6,7 @@
                     class="icon"><span class="feather-icon"><i data-feather="align-left"></i></span></span></button>
 
             <!-- Search -->
-            <form class="dropdown navbar-search">
+            {{-- <form class="dropdown navbar-search">
                 <div class="dropdown-toggle no-caret" data-bs-toggle="dropdown" data-dropdown-animation
                     data-bs-auto-close="outside">
                     <a href="#" class="btn btn-icon btn-rounded btn-flush-dark flush-soft-hover  d-xl-none"><span
@@ -143,7 +143,7 @@
                     <div class="dropdown-footer d-xl-flex d-none"><a href="#"><u>Search all</u></a>
                     </div>
                 </div>
-            </form>
+            </form> --}}
             <!-- /Search -->
         </div>
         <!-- /Start Nav -->
@@ -151,13 +151,13 @@
         <!-- End Nav -->
         <div class="nav-end-wrap">
             <ul class="navbar-nav flex-row">
-                <li class="nav-item">
+                {{-- <li class="nav-item">
                     <a href="email.html" class="btn btn-icon btn-rounded btn-flush-dark flush-soft-hover"><span
                             class="icon"><span class=" position-relative"><span class="feather-icon"><i
                                         data-feather="inbox"></i></span><span
                                     class="badge badge-sm badge-soft-primary badge-sm badge-pill position-top-end-overflow-1">4</span></span></span></a>
-                </li>
-                <li class="nav-item">
+                </li> --}}
+                {{-- <li class="nav-item">
                     <div class="dropdown dropdown-notifications">
                         <a href="#"
                             class="btn btn-icon btn-rounded btn-flush-dark flush-soft-hover dropdown-toggle no-caret"
@@ -294,7 +294,7 @@
                             </div>
                         </div>
                     </div>
-                </li>
+                </li> --}}
                 <li class="nav-item">
                     <div class="dropdown ps-2">
                         <a class=" dropdown-toggle no-caret" href="#" role="button" data-bs-display="static"

@@ -2,10 +2,33 @@
 @section('title', 'Detail Kritik dan Saran')
 
 @section('content')
+    <!-- modal -->
+    <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenter"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Foto Pengaduan</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    {{-- @if ($pengaduan->foto_meteran == '')
+                        <span>Dokumentasi foto tidak tersedia</span>
+                    @else --}}
+                    <img src="{{ asset('storage/foto/pengaduan/' . $pengaduan->foto_pengaduan) }}"
+                        class="img-fluid rounded mx-auto d-block" alt="img">
+                    {{-- @endif --}}
+                </div>
+                <div class="modal-footer">
+                    <span>{{ $pengaduan->created_at }}</span>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="hk-pg-wrapper">
         <div class="container-xxl">
-
-
             <!-- Page Header -->
             <div class="hk-pg-header pg-header-wth-tab pt-7">
                 <div class="d-flex">
@@ -58,7 +81,23 @@
                                             <tr>
                                                 <td class="" colspan="3">
                                                     <br><b>Kritik dan Saran :</b></br>
-                                                    <br>{{$pengaduan->pengaduan}}</br>
+                                                    <br>{{ $pengaduan->pengaduan }}</br>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="" colspan="3">
+                                                    @if ($pengaduan->foto_pengaduan == '')
+                                                        <button type="button" class="btn btn-primary"
+                                                            data-bs-toggle="modal" data-bs-target="#exampleModalCenter" disabled>
+                                                            Foto Pendukung
+                                                        </button>
+                                                    @else
+                                                        <button type="button" class="btn btn-primary"
+                                                            data-bs-toggle="modal" data-bs-target="#exampleModalCenter">
+                                                            Foto Pendukung
+                                                        </button>
+                                                    @endif
+
                                                 </td>
                                             </tr>
                                         </tbody>

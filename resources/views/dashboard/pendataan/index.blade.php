@@ -52,12 +52,12 @@
                             <thead>
                                 <tr>
                                     {{-- <th class="mnw-50p">#</th> --}}
-                                    <th class="mnw-50p opacity-50">#</th>
-                                    {{-- <th class="mnw-50p">Petugas</th> --}}
+                                    <th class="mnw-20p opacity-50">#</th>
+                                    <th class="mnw-50p">ID</th>
                                     <th class="mnw-150p">Pelanggan</th>
-                                    <th class="mnw-100p">Nilai Meteran(m<sup>3</sup>)</th>
+                                    <th class="mnw-150p">Tanggal</th>
                                     <th class="mnw-50p">Penggunaan(m<sup>3</sup>)</th>
-                                    <th class="mnw-150p">Total Harga</th>
+                                    <th class="mnw-100p">Total Harga</th>
                                     <th class="mnw-50p text-center">Status</th>
                                     <th class=""></th>
                                 </tr>
@@ -66,26 +66,31 @@
                                 @foreach ($pendataan as $key => $data)
                                     <tr>
                                         <td class="text-truncate opacity-50">{{ $key + 1 }}</td>
-                                        {{-- <td class="text-truncate text-lg">{{ $data->nama_petugas }}</span></td> --}}
+                                        <td class="text-truncate">{{ $data->id }}</span></td>
                                         <td class="text-truncate">{{ $data->nama_pelanggan }}</span></td>
-                                        <td class="text-truncate">{{ $data->nilai_meteran }}</td>
+                                        <td class="text-truncate">{{ \Carbon\Carbon::parse($data->created_at)->translatedFormat('l, d M Y', 'id') }}</td>
                                         <td class="text-truncate">{{ $data->total_penggunaan }}</td>
                                         <td class="text-truncate">Rp.
                                             {{ number_format($data->total_harga, 0, ',', '.') }},-</span></td>
                                         <td class="text-truncate text-center">
                                             <form onsubmit="return confirm('Ingin mengubah status ?');"
-                                                action="{{ url('/pendataans/status', [$data->id]) }}" method="post">
+                                                action="{{ route('status', $data->id) }}" method="post">
                                                 @method('put')
                                                 @csrf
-                                                <button class="badge badge-primary badge-pill" data-bs-toggle="tooltip"
+                                                    @if ($data->status_pembayaran == 'Lunas')
+                                                    <button class="badge badge-primary badge-pill" data-bs-toggle="tooltip"
                                                     data-bs-placement="top" title="" data-bs-original-title="Ubah Status"
                                                     type="submit">
-                                                    @if ($data->status_pembayaran == 'Lunas')
                                                         {{ $data->status_pembayaran }}
+                                                    </button>
                                                     @else
+                                                    <button class="badge badge-smoke badge-pill" data-bs-toggle="tooltip"
+                                                    data-bs-placement="top" title="" data-bs-original-title="Ubah Status"
+                                                    type="submit">
                                                         {{ $data->status_pembayaran }}
+                                                    </button>
                                                     @endif
-                                                </button>
+                                                
                                             </form>
 
                                         </td>

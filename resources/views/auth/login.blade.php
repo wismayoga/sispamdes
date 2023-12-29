@@ -26,23 +26,30 @@ Contact: contact@hencework.com
             font-size: var(--h6-font-size);
             font-weight: var(--font-weight-bold);
         }
-    
+
         .navbar-brands span {
             display: inline-block;
             vertical-align: middle;
         }
-    
+
         .logos {
             width: 40px;
             height: auto;
         }
-    
+
         .navbar-brands small {
             color: var(--secondary-color);
             display: block;
             font-size: 10px;
             line-height: normal;
             text-transform: uppercase;
+
+        }
+
+        .btn-primary {
+            background-color: #19A7CE;
+            color: #fff;
+            /* Set the text color for better contrast */
         }
     </style>
 </head>
@@ -56,7 +63,8 @@ Contact: contact@hencework.com
                 <!-- Start Nav -->
                 <div class="nav-start-wrap">
                     <a class="navbar-brands" href="/">
-                        <img src="{{ asset('assets/landing/images/icon.png') }}" class="logos img-fluid me-2" alt="Kind Heart Charity">
+                        <img src="{{ asset('assets/landing/images/icon.png') }}" class="logos img-fluid me-2"
+                            alt="Kind Heart Charity">
                         <span>
                             <b>SISPAM-DES</b>
                             <small>Sistem Pendataan SPAM</small>
@@ -91,11 +99,15 @@ Contact: contact@hencework.com
                             <div class="auth-content py-md-0 py-8">
                                 <div class="row">
                                     <div class="col-xxl-9 col-xl-8 col-lg-11 text-center mx-auto">
-                                        <img src="{{ asset('assets/landing/images/login.png') }}" class="img-fluid w-sm-40 w-50 mb-3"
-                                            alt="login" />
+                                        <img src="{{ asset('assets/landing/images/login.png') }}"
+                                            class="img-fluid w-sm-40 w-50 mb-3" alt="login" />
                                         <h3 class="mb-2">Belum memiliki akun?</h3>
-                                        <p class="w-xxl-65 w-100 mx-auto">Hubungi admin pengelola air minum desa dengan mengklik tombol dibawah. Ataupun anda bisa datang ke kantor BUMDes Desa Kayuputih untuk mendapatkan akun SISPAM-Des anda.</p>
-                                        <a href="https://wa.me/6281338903870" target="_blank" class="btn btn-sm btn-primary btn-uppercase mt-4"><i class="bi-telephone me-2"></i> Hubungi Admin</a>
+                                        <p class="w-xxl-65 w-100 mx-auto">Hubungi admin pengelola air minum desa dengan
+                                            mengklik tombol dibawah. Ataupun anda bisa datang ke kantor BUMDes Desa
+                                            Kayuputih untuk mendapatkan akun SISPAM-Des anda.</p>
+                                        <a href="https://wa.me/6281338903870" target="_blank"
+                                            class="btn btn-sm btn-primary btn-uppercase mt-4"><i
+                                                class="bi-telephone me-2"></i> Hubungi Admin</a>
                                     </div>
                                 </div>
                             </div>
@@ -166,7 +178,7 @@ Contact: contact@hencework.com
                             <p class="footer-text"><span class="copy-text">SISPAM-DES © 2023 All rights reserved.</span>
                             </p>
                         </div>
-                      
+
                     </div>
                 </footer>
             </div>

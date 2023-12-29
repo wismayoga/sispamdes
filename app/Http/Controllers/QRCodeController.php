@@ -8,6 +8,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 use Elibyy\TCPDF\Facades\TCPDF;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
 use Intervention\Image\ImageManagerStatic as Image;
 
@@ -18,7 +19,7 @@ class QRCodeController extends Controller
         // Ambil pengguna dari database
         $users = User::where('id', $request->id)->get();
         $jumlahusers = User::where('status', 'Aktif')->count();
-        
+
         // create new PDF document
         $pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
 
@@ -31,11 +32,11 @@ class QRCodeController extends Controller
         $y_axis = 20;
         $z_axis = 30;
         $page_counter = 0;
-        
+
         // Loop melalui setiap pengguna dan tambahkan QR code ke PDF
         foreach ($users as $user) {
             // Buat URL khusus untuk pengguna ini
-            $url = 'https://example.com/user/' . $user->id;
+            $url = 'user/' . $user->id;
 
             // Tambahkan halaman baru setiap 9 QR code
             if ($page_counter % 12 === 0) {
@@ -57,7 +58,9 @@ class QRCodeController extends Controller
 
             // QRCODE,L : QR-CODE Low error correction
             $pdf::write2DBarcode($url, 'QRCODE,L', $y_axis, $z_axis, 50, 50, $style, 'N');
-            $pdf::Text($y_axis, $z_axis - 5, $user->id . "-" . $user->nama);
+            $shortenedName = mb_substr($user->nama, 0, 17);
+
+            $pdf::Text($y_axis, $z_axis - 5, $user->id . "-" . $shortenedName);
             $z_axis += 60;
             if ($z_axis > 210) {
                 $z_axis = 30;
@@ -66,21 +69,20 @@ class QRCodeController extends Controller
             if ($y_axis > 140) {
                 $y_axis = 20;
             }
-            
+
             $page_counter++;
         }
 
         // Simpan PDF ke file
-        $pdf::Output(public_path('QRCode-' . $users[0]->nama . '.pdf'), 'F');
-        
-
-        return response()->download(public_path('QRCode-' . $users[0]->nama . '.pdf'))->deleteFileAfterSend(true);
+        $filename = 'QRCode-' . $users->first()->nama . '.pdf';
+        $pdf::Output(public_path($filename), 'F');
+        return response()->download(public_path($filename))->deleteFileAfterSend(true);
     }
 
     public function generateQRCodesPDF()
     {
         // Ambil semua pengguna dari database
-        $users = User::where('status', 'Aktif')->get();
+        $users = User::where('status', 'Aktif')->where('role', 'Pelanggan')->get();
         $jumlahusers = User::where('status', 'Aktif')->count();
 
 
@@ -100,7 +102,7 @@ class QRCodeController extends Controller
         // Loop melalui setiap pengguna dan tambahkan QR code ke PDF
         foreach ($users as $user) {
             // Buat URL khusus untuk pengguna ini
-            $url = 'https://example.com/user/' . $user->id;
+            $url = 'user/' . $user->id;
 
             // Tambahkan halaman baru setiap 9 QR code
             if ($page_counter % 12 === 0) {
@@ -122,7 +124,9 @@ class QRCodeController extends Controller
 
             // QRCODE,L : QR-CODE Low error correction
             $pdf::write2DBarcode($url, 'QRCODE,L', $y_axis, $z_axis, 50, 50, $style, 'N');
-            $pdf::Text($y_axis, $z_axis - 5, $user->id . "-" . $user->nama);
+            $shortenedName = mb_substr($user->nama, 0, 17);
+
+            $pdf::Text($y_axis, $z_axis - 5, $user->id . "-" . $shortenedName);
             $z_axis += 60;
             if ($z_axis > 210) {
                 $z_axis = 30;
@@ -131,7 +135,7 @@ class QRCodeController extends Controller
             if ($y_axis > 140) {
                 $y_axis = 20;
             }
-            
+
             $page_counter++;
         }
 
@@ -139,7 +143,7 @@ class QRCodeController extends Controller
         $pdf::Output(public_path('QRCodeSISPAMDES.pdf'), 'F');
 
 
-        // return response()->download(public_path('QRCodeSISPAMDES.pdf'))->deleteFileAfterSend(true);
+        return response()->download(public_path('QRCodeSISPAMDES.pdf'))->deleteFileAfterSend(true);
     }
 }
 

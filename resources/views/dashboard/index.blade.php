@@ -44,7 +44,7 @@
                                     <h5 class="card-title">Aktif <span class="badge badge-success badge-indicator"></span>
                                     </h5>
                                     <h3>
-                                        <strong>{{ $pelangganAktif }}</strong> of {{ $pelanggan }}
+                                        <strong>{{ $pelangganAktif }}</strong> / {{ $pelanggan }} Pelanggan
                                     </h3>
                                 </div>
                             </div>
@@ -69,7 +69,7 @@
                             <div class="card-body mt-4">
                                 <h5 class="card-title">Belum dilihat: </h5>
                                 <h3 class="">
-                                    {{ $krisar }}
+                                    {{ $krisar }} Buah
                                     @if ($krisar > 0)
                                         <a class="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover pb-1"
                                             data-bs-toggle="tooltip" data-bs-placement="top" title=""
@@ -155,59 +155,40 @@
                             <div class="col-md-12 mb-md-4 mb-3">
                                 <div class="card card-border mb-0 h-100">
                                     <div class="card-header card-header-action">
-                                        <h6>Pendataan Terbaru
-                                            <span class="badge badge-sm badge-light ms-1">{{ $pendataanterbaru }}</span>
+                                        <h6>Pendapatan SPAM Periode <b>{{ date('Y') }}</b>
+                                            <span class="badge badge-sm badge-light ms-1"></span>
                                         </h6>
                                     </div>
                                     <div class="card-body">
                                         <div class="table-responsive">
-                                            <table class="table table-hover table-filter mb-0 filter" id="filterTable">
+                                            <table class="table table-hover mb-0">
                                                 <thead>
                                                     <tr>
-                                                        <th class="mnw-50p opacity-50">#</th>
-                                                        <th class="mnw-100p">Petugas</th>
-                                                        <th class="mnw-150p">Pelanggan</th>
-                                                        <th class="mnw-50p">Nilai Meteran(m<sup>3</sup>)</th>
-                                                        <th class="mnw-50p">Penggunaan(m<sup>3</sup>)</th>
-                                                        <th class="mnw-100p">Total Harga</th>
-                                                        <th class="mnw-50p text-center">Status</th>
-                                                        <th class="mnw-150p">Tanggal</th>
+                                                        <th class="mnw-50p opacity-50">No</th>
+                                                        <th class="mnw-100p">Bulan</th>
+                                                        <th class="mnw-150p">Total Pendataan</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    @foreach ($pendataanTable as $key => $data)
-                                                        <tr>
-                                                            <td>{{ $key + 1 }}</td>
-                                                            <td>{{ $data->nama_petugas }}</td>
-                                                            <td>{{ $data->nama_pelanggan }}</td>
-                                                            <td>{{ $data->nilai_meteran }}</td>
-                                                            <td>{{ $data->total_penggunaan }}</td>
-                                                            <td>{{ $data->total_harga }}</td>
-                                                            <td>
-                                                                <form onsubmit="return confirm('Ingin mengubah status ?');"
-                                                                    action="{{ url('/pendataans/status', [$data->id]) }}"
-                                                                    method="post">
-                                                                    @method('put')
-                                                                    @csrf
-                                                                    <button class="badge badge-primary badge-pill"
-                                                                        data-bs-toggle="tooltip" data-bs-placement="top"
-                                                                        title="" data-bs-original-title="Ubah Status"
-                                                                        type="submit">
-                                                                        @if ($data->status_pembayaran == 'Lunas')
-                                                                            {{ $data->status_pembayaran }}
-                                                                        @else
-                                                                            {{ $data->status_pembayaran }}
-                                                                        @endif
-                                                                    </button>
-                                                                </form>
-                                                            </td>
-                                                            <td>{{ $data->created_at }}</td>
-                                                        </tr>
+                                                    @php
+                                                    $bulanNames = [
+                                                        'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni',
+                                                        'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'
+                                                    ];
+                                                    $rowNumber = 1;
+                                                    @endphp
+                                        
+                                                    @foreach ($pendapatanPerbulan as $key => $total)
+                                                    <tr>
+                                                        <td>{{ $rowNumber++  }}</td>
+                                                        <td>{{ $bulanNames[$key] }}</td>
+                                                        <td>{{ $total }}</td>
+                                                    </tr>
                                                     @endforeach
-
                                                 </tbody>
                                             </table>
                                         </div>
+                                        
 
                                     </div>
                                 </div>
@@ -328,7 +309,7 @@
                     }
                 }
             },
-            colors: ['#80C959'],
+            colors: ['#19A7CE'],
         };
 
         var chart = new ApexCharts(document.querySelector("#chart_sispam1"), options);
@@ -405,7 +386,7 @@
                     shade: 'dark',
                     type: 'horizontal',
                     shadeIntensity: 0.5,
-                    gradientToColors: ['#ABE5A1'],
+                    gradientToColors: ['#146C94'],
                     inverseColors: true,
                     opacityFrom: 1,
                     opacityTo: 1,

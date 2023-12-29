@@ -114,11 +114,11 @@
                             <thead>
                                 <tr>
                                     {{-- <th class="mnw-50p">#</th> --}}
-                                    <th class="mnw-50p opacity-50">#</th>
+                                    {{-- <th class="mnw-50p opacity-50">#</th> --}}
                                     <th class="mnw-50p">ID</th>
                                     <th class="mnw-50p">Role</th>
                                     <th class="mnw-150p">Nama</th>
-                                    <th class="mnw-50p">Telepon</th>
+                                    <th class="mnw-100p">Telepon</th>
                                     <th class="mnw-150p">Alamat</th>
                                     <th class="mnw-50p text-center">Status</th>
                                     <th class=""></th>
@@ -127,7 +127,7 @@
                             <tbody>
                                 @foreach ($users as $key => $user)
                                     <tr>
-                                        <td class="text-truncate opacity-50">{{ $key + 1 }}</td>
+                                        {{-- <td class="text-truncate opacity-50">{{ $key + 1 }}</td> --}}
                                         <td class="text-truncate">{{ $user->id }}</span></td>
                                         <td class="text-truncate">{{ $user->role }}</span></td>
                                         <td class="text-truncate">{{ $user->nama }}</span></td>
